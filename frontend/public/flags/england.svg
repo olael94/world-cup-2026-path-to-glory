@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48" role="img" aria-label="England flag">
+  <defs>
+    <clipPath id="wave">
+      <path d="M8 11c12-5 20 4 32-1 7-3 12-2 16 0v27c-9-4-17 1-25 0-8-1-15-6-23-2z"/>
+    </clipPath>
+    <linearGradient id="shade" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".45"/>
+      <stop offset=".45" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".24"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.2" flood-color="#000" flood-opacity=".45"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <g clip-path="url(#wave)">
+      <rect x="8" y="6" width="50" height="36" fill="#f7f7f7"/>
+      <path fill="#cf142b" d="M29 6h8v36h-8zM8 20h50v8H8z"/>
+      <path fill="url(#shade)" d="M8 6h50v36H8z"/>
+      <path fill="#000" opacity=".08" d="M8 24c11-5 18 4 30-1 8-3 14-1 20 2v17H8z"/>
+    </g>
+    <path d="M8 11c12-5 20 4 32-1 7-3 12-2 16 0v27c-9-4-17 1-25 0-8-1-15-6-23-2z" fill="none" stroke="#000" stroke-opacity=".18"/>
+  </g>
+</svg>
