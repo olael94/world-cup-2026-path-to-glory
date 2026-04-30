@@ -1,0 +1,2072 @@
+{
+  "generatedAt": "2026-05-01T04:38:57Z",
+  "source": "martj42/international_results results.csv",
+  "sourceUrl": "https://github.com/martj42/international_results",
+  "latestCompletedMatchDate": "2026-03-31",
+  "teams": {
+    "mex": {
+      "name": "Mexico",
+      "elo": 1867.1,
+      "form": 48.3,
+      "historicalMatches": 1000,
+      "recentMatches": [
+        {
+          "date": "2026-01-22",
+          "opponent": "Panama",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-25",
+          "opponent": "Bolivia",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-02-25",
+          "opponent": "Iceland",
+          "goalsFor": 4,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "Portugal",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Belgium",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        }
+      ]
+    },
+    "rsa": {
+      "name": "South Africa",
+      "elo": 1637.5,
+      "form": 52.8,
+      "historicalMatches": 477,
+      "recentMatches": [
+        {
+          "date": "2025-12-26",
+          "opponent": "Egypt",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2025-12-29",
+          "opponent": "Zimbabwe",
+          "goalsFor": 3,
+          "goalsAgainst": 2,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-04",
+          "opponent": "Cameroon",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Panama",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Panama",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        }
+      ]
+    },
+    "kor": {
+      "name": "Korea Republic",
+      "elo": 1819.6,
+      "form": 61.7,
+      "historicalMatches": 1005,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Paraguay",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-14",
+          "opponent": "Bolivia",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Ghana",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "Ivory Coast",
+          "goalsFor": 0,
+          "goalsAgainst": 4,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Austria",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        }
+      ]
+    },
+    "cze": {
+      "name": "Czechia",
+      "elo": 1707.4,
+      "form": 56.6,
+      "historicalMatches": 358,
+      "recentMatches": [
+        {
+          "date": "2025-10-12",
+          "opponent": "Faroe Islands",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "San Marino",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-17",
+          "opponent": "Gibraltar",
+          "goalsFor": 6,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-26",
+          "opponent": "Republic of Ireland",
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Denmark",
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "points": 1.0
+        }
+      ]
+    },
+    "can": {
+      "name": "Canada",
+      "elo": 1807.9,
+      "form": 59.7,
+      "historicalMatches": 467,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Colombia",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "Ecuador",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Venezuela",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "Iceland",
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Tunisia",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        }
+      ]
+    },
+    "bih": {
+      "name": "Bosnia-Herzegovina",
+      "elo": 1597.2,
+      "form": 59.4,
+      "historicalMatches": 281,
+      "recentMatches": [
+        {
+          "date": "2025-10-12",
+          "opponent": "Malta",
+          "goalsFor": 4,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Romania",
+          "goalsFor": 3,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Austria",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-26",
+          "opponent": "Wales",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Italy",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        }
+      ]
+    },
+    "qat": {
+      "name": "Qatar",
+      "elo": 1596.3,
+      "form": 23.8,
+      "historicalMatches": 633,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "United Arab Emirates",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-17",
+          "opponent": "Zimbabwe",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2025-12-01",
+          "opponent": "Palestine",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2025-12-04",
+          "opponent": "Syria",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2025-12-07",
+          "opponent": "Tunisia",
+          "goalsFor": 0,
+          "goalsAgainst": 3,
+          "points": 0.0
+        }
+      ]
+    },
+    "sui": {
+      "name": "Switzerland",
+      "elo": 1841.7,
+      "form": 76.3,
+      "historicalMatches": 882,
+      "recentMatches": [
+        {
+          "date": "2025-10-13",
+          "opponent": "Slovenia",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Sweden",
+          "goalsFor": 4,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Kosovo",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Germany",
+          "goalsFor": 3,
+          "goalsAgainst": 4,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Norway",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        }
+      ]
+    },
+    "bra": {
+      "name": "Brazil",
+      "elo": 1950.3,
+      "form": 61.8,
+      "historicalMatches": 1057,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Japan",
+          "goalsFor": 2,
+          "goalsAgainst": 3,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Senegal",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Tunisia",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-26",
+          "opponent": "France",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Croatia",
+          "goalsFor": 3,
+          "goalsAgainst": 1,
+          "points": 3.0
+        }
+      ]
+    },
+    "mar": {
+      "name": "Morocco",
+      "elo": 1908.6,
+      "form": 80.7,
+      "historicalMatches": 614,
+      "recentMatches": [
+        {
+          "date": "2026-01-09",
+          "opponent": "Cameroon",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-14",
+          "opponent": "Nigeria",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2026-01-18",
+          "opponent": "Senegal",
+          "goalsFor": 3,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Ecuador",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Paraguay",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        }
+      ]
+    },
+    "hai": {
+      "name": "Haiti",
+      "elo": 1636.3,
+      "form": 45.9,
+      "historicalMatches": 508,
+      "recentMatches": [
+        {
+          "date": "2025-10-13",
+          "opponent": "Honduras",
+          "goalsFor": 0,
+          "goalsAgainst": 3,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "Costa Rica",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Nicaragua",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "Tunisia",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Iceland",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        }
+      ]
+    },
+    "sco": {
+      "name": "Scotland",
+      "elo": 1724.3,
+      "form": 56.6,
+      "historicalMatches": 849,
+      "recentMatches": [
+        {
+          "date": "2025-10-12",
+          "opponent": "Belarus",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Greece",
+          "goalsFor": 2,
+          "goalsAgainst": 3,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Denmark",
+          "goalsFor": 4,
+          "goalsAgainst": 2,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "Japan",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Ivory Coast",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        }
+      ]
+    },
+    "usa": {
+      "name": "USA",
+      "elo": 1783.3,
+      "form": 53.1,
+      "historicalMatches": 788,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Australia",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Paraguay",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Uruguay",
+          "goalsFor": 5,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "Belgium",
+          "goalsFor": 2,
+          "goalsAgainst": 5,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Portugal",
+          "goalsFor": 0,
+          "goalsAgainst": 2,
+          "points": 0.0
+        }
+      ]
+    },
+    "par": {
+      "name": "Paraguay",
+      "elo": 1799.2,
+      "form": 47.6,
+      "historicalMatches": 782,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "South Korea",
+          "goalsFor": 0,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "United States",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Mexico",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Greece",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Morocco",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        }
+      ]
+    },
+    "aus": {
+      "name": "Australia",
+      "elo": 1836.3,
+      "form": 68.6,
+      "historicalMatches": 579,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "United States",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-14",
+          "opponent": "Venezuela",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Colombia",
+          "goalsFor": 0,
+          "goalsAgainst": 3,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Cameroon",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Curaçao",
+          "goalsFor": 5,
+          "goalsAgainst": 1,
+          "points": 3.0
+        }
+      ]
+    },
+    "tur": {
+      "name": "Türkiye",
+      "elo": 1839.5,
+      "form": 71.7,
+      "historicalMatches": 640,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Georgia",
+          "goalsFor": 4,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Bulgaria",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Spain",
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-26",
+          "opponent": "Romania",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Kosovo",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        }
+      ]
+    },
+    "ger": {
+      "name": "Germany",
+      "elo": 1910.7,
+      "form": 72.8,
+      "historicalMatches": 1029,
+      "recentMatches": [
+        {
+          "date": "2025-10-13",
+          "opponent": "Northern Ireland",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-14",
+          "opponent": "Luxembourg",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-17",
+          "opponent": "Slovakia",
+          "goalsFor": 6,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Switzerland",
+          "goalsFor": 4,
+          "goalsAgainst": 3,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-30",
+          "opponent": "Ghana",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        }
+      ]
+    },
+    "cur": {
+      "name": "Curaçao",
+      "elo": 1559.1,
+      "form": 47.3,
+      "historicalMatches": 383,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Trinidad and Tobago",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "Bermuda",
+          "goalsFor": 7,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Jamaica",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "China PR",
+          "goalsFor": 0,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Australia",
+          "goalsFor": 1,
+          "goalsAgainst": 5,
+          "points": 0.0
+        }
+      ]
+    },
+    "civ": {
+      "name": "Côte d'Ivoire",
+      "elo": 1746.9,
+      "form": 75.9,
+      "historicalMatches": 635,
+      "recentMatches": [
+        {
+          "date": "2025-12-31",
+          "opponent": "Gabon",
+          "goalsFor": 3,
+          "goalsAgainst": 2,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-06",
+          "opponent": "Burkina Faso",
+          "goalsFor": 3,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-10",
+          "opponent": "Egypt",
+          "goalsFor": 2,
+          "goalsAgainst": 3,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "South Korea",
+          "goalsFor": 4,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Scotland",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        }
+      ]
+    },
+    "ecu": {
+      "name": "Ecuador",
+      "elo": 1893.7,
+      "form": 49.7,
+      "historicalMatches": 589,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Mexico",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "Canada",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "New Zealand",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Morocco",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Netherlands",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        }
+      ]
+    },
+    "ned": {
+      "name": "Netherlands",
+      "elo": 1919.5,
+      "form": 88.4,
+      "historicalMatches": 877,
+      "recentMatches": [
+        {
+          "date": "2025-10-12",
+          "opponent": "Finland",
+          "goalsFor": 4,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-14",
+          "opponent": "Poland",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-17",
+          "opponent": "Lithuania",
+          "goalsFor": 4,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Norway",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Ecuador",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        }
+      ]
+    },
+    "jpn": {
+      "name": "Japan",
+      "elo": 1909.2,
+      "form": 69.7,
+      "historicalMatches": 789,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Brazil",
+          "goalsFor": 3,
+          "goalsAgainst": 2,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-14",
+          "opponent": "Ghana",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Bolivia",
+          "goalsFor": 3,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "Scotland",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "England",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        }
+      ]
+    },
+    "swe": {
+      "name": "Sweden",
+      "elo": 1716.2,
+      "form": 46.2,
+      "historicalMatches": 1099,
+      "recentMatches": [
+        {
+          "date": "2025-10-13",
+          "opponent": "Kosovo",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Switzerland",
+          "goalsFor": 1,
+          "goalsAgainst": 4,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Slovenia",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-26",
+          "opponent": "Ukraine",
+          "goalsFor": 3,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Poland",
+          "goalsFor": 3,
+          "goalsAgainst": 2,
+          "points": 3.0
+        }
+      ]
+    },
+    "tun": {
+      "name": "Tunisia",
+      "elo": 1707.4,
+      "form": 50.4,
+      "historicalMatches": 676,
+      "recentMatches": [
+        {
+          "date": "2025-12-27",
+          "opponent": "Nigeria",
+          "goalsFor": 2,
+          "goalsAgainst": 3,
+          "points": 0.0
+        },
+        {
+          "date": "2025-12-30",
+          "opponent": "Tanzania",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-01-03",
+          "opponent": "Mali",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "Haiti",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Canada",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        }
+      ]
+    },
+    "bel": {
+      "name": "Belgium",
+      "elo": 1863.5,
+      "form": 84.3,
+      "historicalMatches": 851,
+      "recentMatches": [
+        {
+          "date": "2025-10-13",
+          "opponent": "Wales",
+          "goalsFor": 4,
+          "goalsAgainst": 2,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Kazakhstan",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Liechtenstein",
+          "goalsFor": 7,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "United States",
+          "goalsFor": 5,
+          "goalsAgainst": 2,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Mexico",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        }
+      ]
+    },
+    "egy": {
+      "name": "Egypt",
+      "elo": 1758.2,
+      "form": 60.7,
+      "historicalMatches": 754,
+      "recentMatches": [
+        {
+          "date": "2026-01-10",
+          "opponent": "Ivory Coast",
+          "goalsFor": 3,
+          "goalsAgainst": 2,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-14",
+          "opponent": "Senegal",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2026-01-17",
+          "opponent": "Nigeria",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Saudi Arabia",
+          "goalsFor": 4,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Spain",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        }
+      ]
+    },
+    "irn": {
+      "name": "IR Iran",
+      "elo": 1836.8,
+      "form": 56.3,
+      "historicalMatches": 610,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Tanzania",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "Cape Verde",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Uzbekistan",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Nigeria",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Costa Rica",
+          "goalsFor": 5,
+          "goalsAgainst": 0,
+          "points": 3.0
+        }
+      ]
+    },
+    "nzl": {
+      "name": "New Zealand",
+      "elo": 1696.9,
+      "form": 26.6,
+      "historicalMatches": 414,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Norway",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Colombia",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Ecuador",
+          "goalsFor": 0,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Finland",
+          "goalsFor": 0,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-30",
+          "opponent": "Chile",
+          "goalsFor": 4,
+          "goalsAgainst": 1,
+          "points": 3.0
+        }
+      ]
+    },
+    "esp": {
+      "name": "Spain",
+      "elo": 2067.5,
+      "form": 87.7,
+      "historicalMatches": 781,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Bulgaria",
+          "goalsFor": 4,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Georgia",
+          "goalsFor": 4,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Turkey",
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Serbia",
+          "goalsFor": 3,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Egypt",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        }
+      ]
+    },
+    "cpv": {
+      "name": "Cabo Verde",
+      "elo": 1620.3,
+      "form": 59.7,
+      "historicalMatches": 233,
+      "recentMatches": [
+        {
+          "date": "2025-10-13",
+          "opponent": "Eswatini",
+          "goalsFor": 3,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "Iran",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-17",
+          "opponent": "Egypt",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Chile",
+          "goalsFor": 2,
+          "goalsAgainst": 4,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-30",
+          "opponent": "Finland",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        }
+      ]
+    },
+    "ksa": {
+      "name": "Saudi Arabia",
+      "elo": 1660.7,
+      "form": 42.4,
+      "historicalMatches": 738,
+      "recentMatches": [
+        {
+          "date": "2025-12-08",
+          "opponent": "Morocco",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2025-12-11",
+          "opponent": "Palestine",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-12-15",
+          "opponent": "Jordan",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Egypt",
+          "goalsFor": 0,
+          "goalsAgainst": 4,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Serbia",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        }
+      ]
+    },
+    "uru": {
+      "name": "Uruguay",
+      "elo": 1872.5,
+      "form": 53.1,
+      "historicalMatches": 970,
+      "recentMatches": [
+        {
+          "date": "2025-10-13",
+          "opponent": "Uzbekistan",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Mexico",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "United States",
+          "goalsFor": 1,
+          "goalsAgainst": 5,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "England",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Algeria",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        }
+      ]
+    },
+    "fra": {
+      "name": "France",
+      "elo": 2016.5,
+      "form": 85.2,
+      "historicalMatches": 933,
+      "recentMatches": [
+        {
+          "date": "2025-10-13",
+          "opponent": "Iceland",
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "Ukraine",
+          "goalsFor": 4,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-16",
+          "opponent": "Azerbaijan",
+          "goalsFor": 3,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-26",
+          "opponent": "Brazil",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-29",
+          "opponent": "Colombia",
+          "goalsFor": 3,
+          "goalsAgainst": 1,
+          "points": 3.0
+        }
+      ]
+    },
+    "sen": {
+      "name": "Senegal",
+      "elo": 1858.8,
+      "form": 87.3,
+      "historicalMatches": 636,
+      "recentMatches": [
+        {
+          "date": "2026-01-09",
+          "opponent": "Mali",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-14",
+          "opponent": "Egypt",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-18",
+          "opponent": "Morocco",
+          "goalsFor": 0,
+          "goalsAgainst": 3,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "Peru",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Gambia",
+          "goalsFor": 3,
+          "goalsAgainst": 1,
+          "points": 3.0
+        }
+      ]
+    },
+    "irq": {
+      "name": "Iraq",
+      "elo": 1716.7,
+      "form": 64.8,
+      "historicalMatches": 652,
+      "recentMatches": [
+        {
+          "date": "2025-12-03",
+          "opponent": "Bahrain",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-12-06",
+          "opponent": "Sudan",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-12-09",
+          "opponent": "Algeria",
+          "goalsFor": 0,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2025-12-12",
+          "opponent": "Jordan",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Bolivia",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        }
+      ]
+    },
+    "nor": {
+      "name": "Norway",
+      "elo": 1816.3,
+      "form": 86.7,
+      "historicalMatches": 870,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "New Zealand",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "Estonia",
+          "goalsFor": 4,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-16",
+          "opponent": "Italy",
+          "goalsFor": 4,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Netherlands",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Switzerland",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        }
+      ]
+    },
+    "arg": {
+      "name": "Argentina",
+      "elo": 2050.2,
+      "form": 88.7,
+      "historicalMatches": 1066,
+      "recentMatches": [
+        {
+          "date": "2025-10-10",
+          "opponent": "Venezuela",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-10-14",
+          "opponent": "Puerto Rico",
+          "goalsFor": 6,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-14",
+          "opponent": "Angola",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Mauritania",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Zambia",
+          "goalsFor": 5,
+          "goalsAgainst": 0,
+          "points": 3.0
+        }
+      ]
+    },
+    "alg": {
+      "name": "Algeria",
+      "elo": 1808.3,
+      "form": 81.8,
+      "historicalMatches": 615,
+      "recentMatches": [
+        {
+          "date": "2025-12-31",
+          "opponent": "Equatorial Guinea",
+          "goalsFor": 3,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-06",
+          "opponent": "DR Congo",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-10",
+          "opponent": "Nigeria",
+          "goalsFor": 0,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Guatemala",
+          "goalsFor": 7,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Uruguay",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        }
+      ]
+    },
+    "aut": {
+      "name": "Austria",
+      "elo": 1793.3,
+      "form": 90.1,
+      "historicalMatches": 859,
+      "recentMatches": [
+        {
+          "date": "2025-10-12",
+          "opponent": "Romania",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "Cyprus",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Bosnia and Herzegovina",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Ghana",
+          "goalsFor": 5,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "South Korea",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        }
+      ]
+    },
+    "jor": {
+      "name": "Jordan",
+      "elo": 1721.6,
+      "form": 58.3,
+      "historicalMatches": 483,
+      "recentMatches": [
+        {
+          "date": "2025-12-12",
+          "opponent": "Iraq",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-12-15",
+          "opponent": "Saudi Arabia",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-12-18",
+          "opponent": "Morocco",
+          "goalsFor": 2,
+          "goalsAgainst": 3,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Costa Rica",
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Nigeria",
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "points": 1.0
+        }
+      ]
+    },
+    "por": {
+      "name": "Portugal",
+      "elo": 1931.4,
+      "form": 75.6,
+      "historicalMatches": 693,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Hungary",
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "Republic of Ireland",
+          "goalsFor": 0,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-16",
+          "opponent": "Armenia",
+          "goalsFor": 9,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-28",
+          "opponent": "Mexico",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "United States",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        }
+      ]
+    },
+    "cod": {
+      "name": "Congo DR",
+      "elo": 1699.0,
+      "form": 75.5,
+      "historicalMatches": 522,
+      "recentMatches": [
+        {
+          "date": "2025-12-27",
+          "opponent": "Senegal",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2025-12-30",
+          "opponent": "Botswana",
+          "goalsFor": 3,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-06",
+          "opponent": "Algeria",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-25",
+          "opponent": "Bermuda",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Jamaica",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        }
+      ]
+    },
+    "uzb": {
+      "name": "Uzbekistan",
+      "elo": 1780.4,
+      "form": 60.4,
+      "historicalMatches": 352,
+      "recentMatches": [
+        {
+          "date": "2025-11-14",
+          "opponent": "Egypt",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Iran",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2026-01-26",
+          "opponent": "China PR",
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Gabon",
+          "goalsFor": 3,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-30",
+          "opponent": "Venezuela",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        }
+      ]
+    },
+    "col": {
+      "name": "Colombia",
+      "elo": 1929.7,
+      "form": 64.9,
+      "historicalMatches": 636,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Canada",
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "points": 1.0
+        },
+        {
+          "date": "2025-11-15",
+          "opponent": "New Zealand",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "Australia",
+          "goalsFor": 3,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-26",
+          "opponent": "Croatia",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-29",
+          "opponent": "France",
+          "goalsFor": 1,
+          "goalsAgainst": 3,
+          "points": 0.0
+        }
+      ]
+    },
+    "eng": {
+      "name": "England",
+      "elo": 1952.8,
+      "form": 78.7,
+      "historicalMatches": 1088,
+      "recentMatches": [
+        {
+          "date": "2025-10-14",
+          "opponent": "Latvia",
+          "goalsFor": 5,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-13",
+          "opponent": "Serbia",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-16",
+          "opponent": "Albania",
+          "goalsFor": 2,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Uruguay",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Japan",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        }
+      ]
+    },
+    "cro": {
+      "name": "Croatia",
+      "elo": 1884.5,
+      "form": 88.7,
+      "historicalMatches": 394,
+      "recentMatches": [
+        {
+          "date": "2025-10-12",
+          "opponent": "Gibraltar",
+          "goalsFor": 3,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-14",
+          "opponent": "Faroe Islands",
+          "goalsFor": 3,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-17",
+          "opponent": "Montenegro",
+          "goalsFor": 3,
+          "goalsAgainst": 2,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-26",
+          "opponent": "Colombia",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "Brazil",
+          "goalsFor": 1,
+          "goalsAgainst": 3,
+          "points": 0.0
+        }
+      ]
+    },
+    "gha": {
+      "name": "Ghana",
+      "elo": 1595.3,
+      "form": 46.6,
+      "historicalMatches": 669,
+      "recentMatches": [
+        {
+          "date": "2025-10-12",
+          "opponent": "Comoros",
+          "goalsFor": 1,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2025-11-14",
+          "opponent": "Japan",
+          "goalsFor": 0,
+          "goalsAgainst": 2,
+          "points": 0.0
+        },
+        {
+          "date": "2025-11-18",
+          "opponent": "South Korea",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "Austria",
+          "goalsFor": 1,
+          "goalsAgainst": 5,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-30",
+          "opponent": "Germany",
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "points": 0.0
+        }
+      ]
+    },
+    "pan": {
+      "name": "Panama",
+      "elo": 1775.9,
+      "form": 58.3,
+      "historicalMatches": 536,
+      "recentMatches": [
+        {
+          "date": "2025-11-18",
+          "opponent": "El Salvador",
+          "goalsFor": 3,
+          "goalsAgainst": 0,
+          "points": 3.0
+        },
+        {
+          "date": "2026-01-18",
+          "opponent": "Bolivia",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-01-22",
+          "opponent": "Mexico",
+          "goalsFor": 0,
+          "goalsAgainst": 1,
+          "points": 0.0
+        },
+        {
+          "date": "2026-03-27",
+          "opponent": "South Africa",
+          "goalsFor": 1,
+          "goalsAgainst": 1,
+          "points": 1.0
+        },
+        {
+          "date": "2026-03-31",
+          "opponent": "South Africa",
+          "goalsFor": 2,
+          "goalsAgainst": 1,
+          "points": 3.0
+        }
+      ]
+    }
+  }
+}
