@@ -1,0 +1,11 @@
+node_modules/
+.next/
+target/
+.venv/
+__pycache__/
+.pytest_cache/
+.DS_Store
+*.log
+data/team-intelligence-cache.json
+.env
+.idea/
