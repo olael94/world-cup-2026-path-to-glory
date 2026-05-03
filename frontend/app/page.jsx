@@ -11,6 +11,7 @@ import {
     RotateCcw,
     Save,
     SlidersHorizontal,
+    Sparkles,
     Trophy,
     Zap
 } from "lucide-react";
@@ -20,6 +21,7 @@ import {MatchScores} from "../components/MatchScores";
 import {fetchTeams, simulate} from "../lib/api";
 import {groupStyle, initialOrders, mergeTeamIntelligence} from "../lib/seedData";
 import {Tutorial} from "../components/Tutorial";
+import {Footer} from "../components/Footer";
 import {TeamIntelDrawer} from "../components/TeamIntelDrawer";
 
 export default function Home() {
@@ -201,9 +203,9 @@ export default function Home() {
                     <div className="section-masthead">
                         <span className="section-kicker">Group stage</span>
                         <h2 id="group-stage-heading">Shape the tournament before kickoff</h2>
-                        <p>Pick the groups you want to work on, drag teams into your predicted order, enter any scores
-                            you know, then calculate the road ahead.</p>
+                        <p>Pick the groups you want to work on, drag teams into your predicted order, enter any scores you know, then calculate the road ahead.</p>
                     </div>
+                    <AiScoreboard />
                     <div className="momentum-legend">
                         <span className="momentum-legend-item is-positive"><Zap size={12}/> Momentum gained — team performed better than expected</span>
                         <span className="momentum-legend-item is-negative"><Zap size={12}/> Momentum lost — team underperformed against expectations</span>
@@ -369,9 +371,84 @@ export default function Home() {
                 className="fixed bottom-4 right-4 rounded-md border border-line bg-panel/95 px-3 py-2 text-xs text-white/55 shadow-lg">
                 {isPending ? "Calculating momentum..." : snapshot?.createdAt ? `Snapshot ${new Date(snapshot.createdAt).toLocaleTimeString()}` : "Ready"}
             </div>
+            <Footer />
             <Tutorial forceOpen={showTutorial} onClose={() => setShowTutorial(false)}/>
             <TeamIntelDrawer team={selectedTeam} onClose={() => setSelectedTeam(null)}/>
         </main>
+    );
+}
+
+function AiScoreboard() {
+    const messages = [
+        {
+            icon: "✦",
+            text: "Let AI guide your predictions.",
+            bg: "rgba(113, 229, 183, 0.10)",
+            border: "rgba(113, 229, 183, 0.28)",
+            glow: "rgba(113, 229, 183, 0.8)",
+            color: "#71e5b7",
+        },
+        {
+            icon: "📡",
+            text: "Live news, real injuries, and how every team is performing right now.",
+            bg: "rgba(76, 132, 255, 0.10)",
+            border: "rgba(76, 132, 255, 0.28)",
+            glow: "rgba(76, 132, 255, 0.8)",
+            color: "#7eb4ff",
+        },
+        {
+            icon: "🏆",
+            text: "Analyzed so you know who's truly on a path to glory.",
+            bg: "rgba(255, 177, 64, 0.10)",
+            border: "rgba(255, 177, 64, 0.28)",
+            glow: "rgba(255, 177, 64, 0.8)",
+            color: "#ffcf7b",
+        },
+    ];
+    const SLIDE_H = "3.2rem";
+    const [index, setIndex] = useState(0);
+    const [sliding, setSliding] = useState(false);
+    const nextIndex = (index + 1) % messages.length;
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSliding(true);
+            setTimeout(() => {
+                setIndex((prev) => (prev + 1) % messages.length);
+                setSliding(false);
+            }, 650);
+        }, 8000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const current = messages[index];
+    const next = messages[nextIndex];
+
+    return (
+        <div className="ai-scoreboard-wrap" aria-live="polite">
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%",
+                    transform: sliding ? `translateY(-${SLIDE_H})` : "translateY(0)",
+                    transition: sliding ? "transform 0.65s cubic-bezier(0.4, 0, 0.2, 1)" : "none",
+                }}
+            >
+                <div className="ai-scoreboard-slide" style={{ height: SLIDE_H, background: current.bg }}>
+                    <span className="ai-scoreboard-icon">{current.icon}</span>
+                    <span className="ai-scoreboard-text" style={{ color: current.color }}>
+                        {current.text}
+                    </span>
+                </div>
+                <div className="ai-scoreboard-slide" style={{ height: SLIDE_H, background: next.bg }}>
+                    <span className="ai-scoreboard-icon">{next.icon}</span>
+                    <span className="ai-scoreboard-text" style={{ color: next.color }}>
+                        {next.text}
+                    </span>
+                </div>
+            </div>
+        </div>
     );
 }
 
