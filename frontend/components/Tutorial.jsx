@@ -17,8 +17,8 @@ const STEPS = [
   },
   {
     target: "[data-tutorial='groups'] .group-panel .team-flip-button",
-    title: "Team Elo and Form",
-    body: "Every team has an Elo rating (historical strength) and a Form score (recent momentum). Tap the info icon on any team to see how they stack up going into the tournament.",
+    title: "Team Intel Panel",
+    body: "Tap the arrow on any team card to open the intel panel. Inside you'll find Elo and form ratings, AI-powered news signals, injuries, player availability, and coach notes.",
     padding: 10,
   },
   {
