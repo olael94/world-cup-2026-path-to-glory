@@ -18,6 +18,32 @@ Then open:
 - Spring Boot API: `http://localhost:8080`
 - FastAPI docs: `http://localhost:8000/docs`
 
+## Frontend Code Quality
+
+All commands run from the `frontend/` directory.
+
+### Lint
+
+Check for code issues:
+
+```bash
+npm run lint
+```
+
+Auto-fix everything ESLint can fix automatically:
+
+```bash
+npm run lint:fix
+```
+
+### Prettier
+
+Format all `.js`, `.jsx`, `.json`, and `.css` files:
+
+```bash
+npm run format
+```
+
 ## Notes
 
 The app seeds all 12 groups and 48 teams in `frontend/lib/seedData.js` and `backend/.../SeedData.java`. Rankings are intentionally isolated in one place so the April 2026 FIFA ranking snapshot can be replaced without touching simulation logic.
