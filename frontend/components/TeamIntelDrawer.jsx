@@ -68,12 +68,12 @@ export function TeamIntelDrawer({team, onClose}) {
                         animate="visible"
                         exit="exit"
                         transition={{type: "spring", stiffness: 380, damping: 38}}
-            drag={isMobile ? "y" : false}
-            dragConstraints={{top: 0}}
-            dragElastic={{top: 0, bottom: 0.4}}
-            onDragEnd={(_, info) => {
-                if (info.offset.y > 80 || info.velocity.y > 500) onClose();
-            }}
+                        drag={isMobile ? "y" : false}
+                        dragConstraints={{top: 0}}
+                        dragElastic={{top: 0, bottom: 0.4}}
+                        onDragEnd={(_, info) => {
+                            if (info.offset.y > 80 || info.velocity.y > 500) onClose();
+                        }}
                     >
                         {/* Drag handle — mobile only */}
                         <div className="flex justify-center pt-3 pb-1 md:hidden">
@@ -164,10 +164,26 @@ export function TeamIntelDrawer({team, onClose}) {
                                                         label: item.relevance,
                                                         color: "text-white/50"
                                                     };
-                                                    return (
+                                                    return item.url ? (
+                                                        <a key={i}
+                                                           href={item.url}
+                                                           target="_blank"
+                                                           rel="noopener noreferrer"
+                                                           className="block rounded-lg border border-white/8 bg-white/5 px-3 py-2.5 transition-colors hover:border-white/20 hover:bg-white/10">
+                                                            <div
+                                                                className="flex items-start justify-between gap-2">
+                                                                <p className="text-xs leading-snug text-white/85">{item.headline}</p>
+                                                                <span
+                                                                    className={`shrink-0 text-[9px] font-bold uppercase tracking-wide ${rel.color}`}>{rel.label}</span>
+                                                            </div>
+                                                            {item.source && <div
+                                                                className="mt-1 text-[10px] text-white/35">{item.source} ↗</div>}
+                                                        </a>
+                                                    ) : (
                                                         <div key={i}
                                                              className="rounded-lg border border-white/8 bg-white/5 px-3 py-2.5">
-                                                            <div className="flex items-start justify-between gap-2">
+                                                            <div
+                                                                className="flex items-start justify-between gap-2">
                                                                 <p className="text-xs leading-snug text-white/85">{item.headline}</p>
                                                                 <span
                                                                     className={`shrink-0 text-[9px] font-bold uppercase tracking-wide ${rel.color}`}>{rel.label}</span>

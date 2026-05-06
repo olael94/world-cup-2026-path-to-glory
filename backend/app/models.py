@@ -9,6 +9,7 @@ class NewsItem(BaseModel):
     headline: str = ""
     source: str = ""
     relevance: str = ""
+    url: str = ""
     model_config = {"populate_by_name": True}
 
 

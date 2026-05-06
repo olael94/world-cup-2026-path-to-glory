@@ -203,14 +203,10 @@ export default function Home() {
                     <div className="section-masthead">
                         <span className="section-kicker">Group stage</span>
                         <h2 id="group-stage-heading">Shape the tournament before kickoff</h2>
-                        <p>Pick the groups you want to work on, drag teams into your predicted order, enter any scores you know, then calculate the road ahead.</p>
+                        <p>Pick the groups you want to work on, drag teams into your predicted order, enter any scores
+                            you know, then calculate the road ahead.</p>
                     </div>
-                    <AiScoreboard />
-                    <div className="momentum-legend">
-                        <span className="momentum-legend-item is-positive"><Zap size={12}/> Momentum gained — team performed better than expected</span>
-                        <span className="momentum-legend-item is-negative"><Zap size={12}/> Momentum lost — team underperformed against expectations</span>
-                        <span className="momentum-legend-item is-neutral"><Zap size={12}/> No momentum shift yet — hit Calculate to simulate</span>
-                    </div>
+                    <AiScoreboard/>
                 </motion.section>
 
                 <div className="control-dock">
@@ -341,6 +337,14 @@ export default function Home() {
                 </div>
             </section>
 
+            <div className="mx-auto max-w-[1400px] px-8">
+                <div className="momentum-legend">
+                    <span className="momentum-legend-item is-positive"><Zap size={12}/> Momentum gained — team performed better than expected</span>
+                    <span className="momentum-legend-item is-negative"><Zap size={12}/> Momentum lost — team underperformed against expectations</span>
+                    <span className="momentum-legend-item is-neutral"><Zap size={12}/> No momentum shift yet — hit Calculate to simulate</span>
+                </div>
+            </div>
+
             <section
                 className="groups-section mx-auto grid max-w-[1400px] gap-5 px-8 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
                 data-tutorial="groups">
@@ -371,7 +375,7 @@ export default function Home() {
                 className="fixed bottom-4 right-4 rounded-md border border-line bg-panel/95 px-3 py-2 text-xs text-white/55 shadow-lg">
                 {isPending ? "Calculating momentum..." : snapshot?.createdAt ? `Snapshot ${new Date(snapshot.createdAt).toLocaleTimeString()}` : "Ready"}
             </div>
-            <Footer />
+            <Footer/>
             <Tutorial forceOpen={showTutorial} onClose={() => setShowTutorial(false)}/>
             <TeamIntelDrawer team={selectedTeam} onClose={() => setSelectedTeam(null)}/>
         </main>
@@ -435,15 +439,15 @@ function AiScoreboard() {
                     transition: sliding ? "transform 0.65s cubic-bezier(0.4, 0, 0.2, 1)" : "none",
                 }}
             >
-                <div className="ai-scoreboard-slide" style={{ height: SLIDE_H, background: current.bg }}>
+                <div className="ai-scoreboard-slide" style={{height: SLIDE_H, background: current.bg}}>
                     <span className="ai-scoreboard-icon">{current.icon}</span>
-                    <span className="ai-scoreboard-text" style={{ color: current.color }}>
+                    <span className="ai-scoreboard-text" style={{color: current.color}}>
                         {current.text}
                     </span>
                 </div>
-                <div className="ai-scoreboard-slide" style={{ height: SLIDE_H, background: next.bg }}>
+                <div className="ai-scoreboard-slide" style={{height: SLIDE_H, background: next.bg}}>
                     <span className="ai-scoreboard-icon">{next.icon}</span>
-                    <span className="ai-scoreboard-text" style={{ color: next.color }}>
+                    <span className="ai-scoreboard-text" style={{color: next.color}}>
                         {next.text}
                     </span>
                 </div>

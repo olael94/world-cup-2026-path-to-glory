@@ -929,7 +929,7 @@ button, input {
 }
 
 .focus-section {
-  padding-bottom: 1.9rem;
+
   padding-top: 0.15rem;
 }
 
@@ -942,7 +942,6 @@ button, input {
 }
 
 .wildcard-section {
-  margin-top: clamp(3.5rem, 5.8vw, 6.2rem);
   padding-bottom: clamp(4.4rem, 6.4vw, 6.8rem);
   padding-top: clamp(4.2rem, 6.2vw, 6.8rem);
 }
@@ -1333,6 +1332,7 @@ button, input {
   gap: 0.9rem;
   margin-top: 1rem;
   padding-top: 1rem;
+  padding-bottom: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
