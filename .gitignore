@@ -4,8 +4,9 @@ target/
 .venv/
 __pycache__/
 .pytest_cache/
+.ruff_cache/
 .DS_Store
 *.log
-data/team-intelligence-cache.json
+**/data/team-intelligence-cache.json
 .env
 .idea/

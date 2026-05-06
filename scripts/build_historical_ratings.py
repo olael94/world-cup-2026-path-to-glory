@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS_CSV = ROOT / "math-service" / "data" / "results.csv"
 FRONTEND_OUT = ROOT / "frontend" / "lib" / "generated" / "historicalRatings.json"
-BACKEND_OUT = ROOT / "backend" / "src" / "main" / "resources" / "historical-ratings.json"
+BACKEND_OUT = ROOT / "backend" / "app" / "data" / "historical-ratings.json"
 
 BASE_ELO = 1500.0
 HOME_ADVANTAGE = 55.0

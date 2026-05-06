@@ -1,0 +1,31 @@
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes (undefined names, unused imports)
+    "I",   # isort (import ordering)
+    "B",   # flake8-bugbear (common bugs and design issues)
+    "UP",  # pyupgrade (modernize Python syntax)
+    "N",   # pep8-naming conventions
+]
+ignore = [
+    "B008",  # allow function calls in default args — required by FastAPI (Depends, Query, etc.)
+    "E501",  # line too long — handled by the formatter
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.ruff.lint.per-file-ignores]
+# W, R, T are intentional single-letter abbreviations for Winners/Runners/Thirds
+"app/simulation.py" = ["N806"]
+# MAX_RETRIES is an intentional ALL_CAPS constant defined inside a function
+"app/intelligence.py" = ["N806"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

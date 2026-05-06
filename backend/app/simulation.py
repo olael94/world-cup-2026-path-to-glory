@@ -1,11 +1,18 @@
 from __future__ import annotations
+
 from itertools import combinations
 from math import exp, factorial
+
 import numpy as np
 from sklearn.linear_model import PoissonRegressor
+
 from .models import (
-    GroupOrderDto, ManualScoreDto, GroupResultPayload,
-    MatchResultPayload, WildcardStanding, BracketFixture,
+    BracketFixture,
+    GroupOrderDto,
+    GroupResultPayload,
+    ManualScoreDto,
+    MatchResultPayload,
+    WildcardStanding,
 )
 
 K_FACTOR = 36
@@ -17,7 +24,7 @@ def _expected_win(he, ae, hr, ar) -> float:
 
 
 def _poisson(lam, g):
-    return (lam ** g * exp(-lam)) / factorial(g)
+    return (lam**g * exp(-lam)) / factorial(g)
 
 
 def _exp_goals(te, tr, tf, oe, or_, of_) -> float:
@@ -57,13 +64,19 @@ def simulate_group(
     pos = {s.team.id: s.position for s in ordered}
     manual_map = {
         tuple(sorted((ms.home_id, ms.away_id))): ms
-        for ms in manual_scores if ms.group == group.group
+        for ms in manual_scores
+        if ms.group == group.group
     }
     elos = {t.id: t.elo for t in teams}
     stats = {
         t.id: {
-            "played": 0, "wins": 0, "draws": 0, "losses": 0,
-            "gf": 0, "ga": 0, "pts": 0,
+            "played": 0,
+            "wins": 0,
+            "draws": 0,
+            "losses": 0,
+            "gf": 0,
+            "ga": 0,
+            "pts": 0,
             "fp": -round((discipline / 100) * (5 - pos[t.id])),
             "ms": 0.0,
         }
@@ -81,8 +94,12 @@ def simulate_group(
             ag = ms.away_goals if ms.home_id == home.id else ms.home_goals
         else:
             ehg, eag = _pick_score(
-                elos[home.id], home.ranking, home.form,
-                elos[away.id], away.ranking, away.form,
+                elos[home.id],
+                home.ranking,
+                home.form,
+                elos[away.id],
+                away.ranking,
+                away.form,
             )
             if hp < ap:
                 hg = max(ehg, eag + 1)
@@ -112,25 +129,46 @@ def simulate_group(
             else:
                 s["losses"] += 1
 
-        matches_out.append(MatchResultPayload(**{
-            "group": group.group, "homeId": home.id, "awayId": away.id,
-            "homeGoals": hg, "awayGoals": ag, "expectedHomeWin": ew,
-            "homeShift": hs, "awayShift": as_,
-        }))
+        matches_out.append(
+            MatchResultPayload(
+                **{
+                    "group": group.group,
+                    "homeId": home.id,
+                    "awayId": away.id,
+                    "homeGoals": hg,
+                    "awayGoals": ag,
+                    "expectedHomeWin": ew,
+                    "homeShift": hs,
+                    "awayShift": as_,
+                }
+            )
+        )
 
     raw = [
-        GroupResultPayload(**{
-            "teamId": t.id, "teamName": t.name, "group": group.group, "position": 0,
-            "played": stats[t.id]["played"], "wins": stats[t.id]["wins"],
-            "draws": stats[t.id]["draws"], "losses": stats[t.id]["losses"],
-            "goalsFor": stats[t.id]["gf"], "goalsAgainst": stats[t.id]["ga"],
-            "goalDifference": stats[t.id]["gf"] - stats[t.id]["ga"],
-            "points": stats[t.id]["pts"], "fairPlay": stats[t.id]["fp"],
-            "elo": elos[t.id], "momentumShift": round(stats[t.id]["ms"], 2),
-        })
+        GroupResultPayload(
+            **{
+                "teamId": t.id,
+                "teamName": t.name,
+                "group": group.group,
+                "position": 0,
+                "played": stats[t.id]["played"],
+                "wins": stats[t.id]["wins"],
+                "draws": stats[t.id]["draws"],
+                "losses": stats[t.id]["losses"],
+                "goalsFor": stats[t.id]["gf"],
+                "goalsAgainst": stats[t.id]["ga"],
+                "goalDifference": stats[t.id]["gf"] - stats[t.id]["ga"],
+                "points": stats[t.id]["pts"],
+                "fairPlay": stats[t.id]["fp"],
+                "elo": elos[t.id],
+                "momentumShift": round(stats[t.id]["ms"], 2),
+            }
+        )
         for t in teams
     ]
-    raw.sort(key=lambda r: (-r.points, -r.goal_difference, -r.goals_for, -r.fair_play, pos[r.team_id]))
+    raw.sort(
+        key=lambda r: (-r.points, -r.goal_difference, -r.goals_for, -r.fair_play, pos[r.team_id])
+    )
     standings = [r.model_copy(update={"position": i + 1}) for i, r in enumerate(raw)]
     return standings, matches_out
 
@@ -164,13 +202,25 @@ def wildcard_table(standings: list[GroupResultPayload]) -> list[WildcardStanding
         key=lambda r: (-r.points, -r.goal_difference, -r.goals_for, -r.fair_play),
     )
     return [
-        WildcardStanding(**{
-            "teamId": r.team_id, "teamName": r.team_name, "group": r.group,
-            "played": r.played, "wins": r.wins, "draws": r.draws, "losses": r.losses,
-            "points": r.points, "goalsFor": r.goals_for, "goalsAgainst": r.goals_against,
-            "goalDifference": r.goal_difference, "fairPlay": r.fair_play,
-            "elo": r.elo, "momentumShift": r.momentum_shift, "qualified": i < 8,
-        })
+        WildcardStanding(
+            **{
+                "teamId": r.team_id,
+                "teamName": r.team_name,
+                "group": r.group,
+                "played": r.played,
+                "wins": r.wins,
+                "draws": r.draws,
+                "losses": r.losses,
+                "points": r.points,
+                "goalsFor": r.goals_for,
+                "goalsAgainst": r.goals_against,
+                "goalDifference": r.goal_difference,
+                "fairPlay": r.fair_play,
+                "elo": r.elo,
+                "momentumShift": r.momentum_shift,
+                "qualified": i < 8,
+            }
+        )
         for i, r in enumerate(thirds)
     ]
 
@@ -187,21 +237,29 @@ def round_of_32(
     for mn, hg, ht, ag, at, venue in _FIXED_R32:
         h = (W if ht == "winner" else R).get(hg)
         a = (W if at == "winner" else R).get(ag)
-        fixtures.append(BracketFixture(**{
-            "matchNo": mn,
-            "home": h.team_name if h else "Pending",
-            "away": a.team_name if a else "Pending",
-            "venue": venue,
-        }))
+        fixtures.append(
+            BracketFixture(
+                **{
+                    "matchNo": mn,
+                    "home": h.team_name if h else "Pending",
+                    "away": a.team_name if a else "Pending",
+                    "venue": venue,
+                }
+            )
+        )
 
     for mn, hg, accepted, venue in _THIRD_PLACE_SLOTS:
         third = next((T[g] for g in accepted if g in T), None)
         home = W.get(hg)
-        fixtures.append(BracketFixture(**{
-            "matchNo": mn,
-            "home": home.team_name if home else "Pending",
-            "away": third.team_name if third else "Pending third-place qualifier",
-            "venue": venue,
-        }))
+        fixtures.append(
+            BracketFixture(
+                **{
+                    "matchNo": mn,
+                    "home": home.team_name if home else "Pending",
+                    "away": third.team_name if third else "Pending third-place qualifier",
+                    "venue": venue,
+                }
+            )
+        )
 
     return sorted(fixtures, key=lambda f: f.match_no)

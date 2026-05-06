@@ -1,7 +1,8 @@
 from __future__ import annotations
+
 from datetime import datetime
-from typing import Optional
 from uuid import UUID
+
 from pydantic import BaseModel, Field
 
 
@@ -25,7 +26,7 @@ class TeamDto(BaseModel):
     ai_adjusted: bool = Field(False, alias="aiAdjusted")
     news_count: int = Field(0, alias="newsCount")
     intelligence_summary: str = Field("", alias="intelligenceSummary")
-    intelligence_updated_at: Optional[str] = Field(None, alias="intelligenceUpdatedAt")
+    intelligence_updated_at: str | None = Field(None, alias="intelligenceUpdatedAt")
     news_items: list[NewsItem] = Field(default_factory=list, alias="newsItems")
     key_players_out: list[str] = Field(default_factory=list, alias="keyPlayersOut")
     key_players_in: list[str] = Field(default_factory=list, alias="keyPlayersIn")
@@ -53,7 +54,7 @@ class GroupOrderDto(BaseModel):
 
 
 class SimulateRequest(BaseModel):
-    snapshot_name: Optional[str] = Field(None, alias="snapshotName")
+    snapshot_name: str | None = Field(None, alias="snapshotName")
     discipline: int = Field(50, ge=0, le=100)
     groups: list[GroupOrderDto]
     manual_scores: list[ManualScoreDto] = Field(default_factory=list, alias="manualScores")
@@ -125,9 +126,9 @@ class BracketFixture(BaseModel):
 
 
 class SimulateResponse(BaseModel):
-    snapshot_id: Optional[UUID] = Field(None, alias="snapshotId")
+    snapshot_id: UUID | None = Field(None, alias="snapshotId")
     name: str
-    created_at: Optional[datetime] = Field(None, alias="createdAt")
+    created_at: datetime | None = Field(None, alias="createdAt")
     groups: list[GroupPayload]
     wildcard_table: list[WildcardStanding] = Field(alias="wildcardTable")
     round_of32: list[BracketFixture] = Field(alias="roundOf32")
