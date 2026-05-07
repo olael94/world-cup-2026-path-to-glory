@@ -1714,6 +1714,10 @@ input {
 /* Wrapper: provides the 2px border track */
 .calculate-cta-wrapper {
     border-radius: 999px;
+    box-shadow:
+        0 0 8px rgba(113, 229, 183, 0.35),
+        0 0 16px rgba(255, 177, 64, 0.2),
+        0 0 10px rgba(255, 64, 116, 0.15);
     display: inline-flex;
     isolation: isolate;
     padding: 2px;
@@ -1747,7 +1751,6 @@ input {
     );
     border-radius: 999px;
     content: "";
-    filter: drop-shadow(0 0 4px #71e5b7) drop-shadow(0 0 8px #ffb140) drop-shadow(0 0 3px #ff4074);
     inset: 0;
     position: absolute;
     z-index: 1;
