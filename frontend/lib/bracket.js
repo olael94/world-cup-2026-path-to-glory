@@ -4,25 +4,28 @@
 // Each round's team slots are filled by the winner (real or picked) from the previous round.
 export function buildBracketRounds(roundOf32, picks) {
     const r32 = applyPicks(roundOf32, picks);
+    // R16 venues follow the official FIFA bracket order (matches 89-96, reordered for QF pairing):
+    // R16-89 (M74+M77), R16-90 (M73+M75), R16-93 (M83+M84), R16-94 (M81+M82),
+    // R16-91 (M76+M78), R16-92 (M79+M80), R16-95 (M86+M88), R16-96 (M85+M87)
     const roundOf16 = pairWinners("R16", r32, 8, picks, [
-        "Philadelphia Stadium",
-        "New York New Jersey Stadium",
-        "Dallas Stadium",
-        "Atlanta Stadium",
-        "Seattle Stadium",
-        "Vancouver Stadium",
-        "Miami Stadium",
-        "Kansas City Stadium",
+        "Lincoln Financial Field",  // R16-89 · M74+M77 → QF Gillette
+        "NRG Stadium",              // R16-90 · M73+M75 → QF Gillette
+        "AT&T Stadium",             // R16-93 · M83+M84 → QF SoFi
+        "Lumen Field",              // R16-94 · M81+M82 → QF SoFi
+        "MetLife Stadium",          // R16-91 · M76+M78 → QF Hard Rock
+        "Estadio Azteca",           // R16-92 · M79+M80 → QF Hard Rock
+        "Mercedes-Benz Stadium",    // R16-95 · M86+M88 → QF Arrowhead
+        "BC Place",                 // R16-96 · M85+M87 → QF Arrowhead
     ]);
     const quarterfinals = pairWinners("QF", roundOf16, 4, picks, [
-        "Boston Stadium",
-        "Los Angeles Stadium",
-        "Miami Stadium",
-        "Kansas City Stadium",
+        "Gillette Stadium",         // QF-97 · R16-89+90 → SF AT&T
+        "SoFi Stadium",             // QF-98 · R16-93+94 → SF AT&T
+        "Hard Rock Stadium",        // QF-99 · R16-91+92 → SF Mercedes-Benz
+        "Arrowhead Stadium",        // QF-100 · R16-95+96 → SF Mercedes-Benz
     ]);
     const semifinals = pairWinners("SF", quarterfinals, 2, picks, [
-        "Dallas Stadium",
-        "Atlanta Stadium",
+        "AT&T Stadium",             // SF-101 · QF-97+98
+        "Mercedes-Benz Stadium",    // SF-102 · QF-99+100
     ]);
 
     return [
@@ -36,7 +39,7 @@ export function buildBracketRounds(roundOf32, picks) {
                 [
                     {
                         displayId: "Final",
-                        venue: "New York New Jersey Stadium",
+                        venue: "MetLife Stadium",  // Match 104 · East Rutherford NJ
                         sourceIds: ["SF-1", "SF-2"],
                         home: winnerOrPlaceholder(semifinals[0]),
                         away: winnerOrPlaceholder(semifinals[1]),
