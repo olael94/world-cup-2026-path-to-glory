@@ -52,3 +52,12 @@ export async function simulate(
 
     return response.json();
 }
+
+export async function fetchSnapshot(id) {
+    const response = await fetch(`${API_BASE}/snapshot/${id}`);
+    if (!response.ok) {
+        const detail = await response.json().catch(() => ({}));
+        throw new Error(detail?.detail ?? `Snapshot not found: ${response.status}`);
+    }
+    return response.json();
+}

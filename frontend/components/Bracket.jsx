@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { Lock, ShieldCheck, Trophy, Zap } from "lucide-react";
+import { ChevronDown, Lock, RotateCcw, ShieldCheck, Trophy, Zap } from "lucide-react";
 import { CountryLabel } from "./CountryLabel";
 import { groupStyle, teamByName } from "../lib/seedData";
 import {
@@ -40,7 +40,7 @@ export function WildcardTable({ rows }) {
             <div className="mx-auto max-w-[1200px] px-8">
                 <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
                     <div className="section-masthead">
-                        <span className="section-kicker">Wildcard race</span>
+                        <span className="section-kicker">03 Wildcard race</span>
                         <h2>Third-Place Table</h2>
                         <p>
                             Top 8 third-place teams advance. Order uses Pts, GD, GF, then Fair Play.
@@ -104,6 +104,15 @@ export function WildcardTable({ rows }) {
                     </div>
                 </div>
             </div>
+            <button
+                className="bracket-scroll-hint"
+                onClick={() =>
+                    document.getElementById("bracket-section")?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
+            >
+                <ChevronDown size={18} className="bracket-scroll-hint-arrow" />
+                <span>Full bracket below</span>
+            </button>
         </section>
     );
 }
@@ -129,7 +138,7 @@ function eloWinProbability(eloA, eloB) {
     return 1.0 / (1.0 + Math.pow(10, -(eloA - eloB) / 400));
 }
 
-export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, eloByTeam = {} }) {
+export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, eloByTeam = {}, onReset }) {
     // Add a stable displayId to each fixture so we can key picks and refs by it,
     // since the backend matchNo alone isn't guaranteed to be sequential from 1.
     const roundOf32 = useMemo(
@@ -350,10 +359,10 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
     );
 
     return (
-        <section className="bracket-section mx-auto max-w-[1400px] px-8">
+        <section id="bracket-section" className="bracket-section mx-auto max-w-[1400px] px-8">
             <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
                 <div className="section-masthead">
-                    <span className="section-kicker">Knockout route</span>
+                    <span className="section-kicker">04 Knockout route</span>
                     <h2>Path to Glory Bracket</h2>
                     <p>
                         {mode === "real"
@@ -361,9 +370,19 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
                             : "Drag or tap winners to route the bracket"}
                     </p>
                 </div>
-                <span className="section-stat-pill">
-                    Connectors light up when a winner advances
-                </span>
+                <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-end sm:gap-3">
+                    <span className="section-stat-pill">
+                        Connectors light up when a winner advances
+                    </span>
+                    {onReset && (
+                        <div className="flex flex-col items-start gap-1 sm:items-end">
+                            <p className="reset-cta-note">Want to try a different scenario?</p>
+                            <button className="reset-cta" onClick={onReset}>
+                                <RotateCcw size={15} /> Reset the board
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
 
             <div

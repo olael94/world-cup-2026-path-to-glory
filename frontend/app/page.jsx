@@ -4,7 +4,7 @@
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { motion } from "framer-motion";
-import { ClipboardList, Eye, SlidersHorizontal, Trophy, Zap } from "lucide-react";
+import { Activity, ChevronDown, ChevronRight, ClipboardList, Eye, SlidersHorizontal, Trophy, Zap } from "lucide-react";
 import { GroupBoard } from "../components/GroupBoard";
 import { RoundOf32, WildcardTable } from "../components/Bracket";
 import { MatchScores } from "../components/MatchScores";
@@ -13,6 +13,7 @@ import { ControlDock } from "../components/ControlDock";
 import { fetchTeams, simulate } from "../lib/api";
 import { groupStyle, initialOrders, mergeTeamIntelligence } from "../lib/seedData";
 import { manualScorePayload, manualScorePayloadFromInputs } from "../lib/scores";
+import { DragHint } from "../components/DragHint";
 import { Tutorial } from "../components/Tutorial";
 import { Footer } from "../components/Footer";
 import { TeamIntelDrawer } from "../components/TeamIntelDrawer";
@@ -42,6 +43,9 @@ export default function Home() {
     const [isPending, startTransition] = useTransition();
     // The team whose intel drawer is currently open.
     const [selectedTeam, setSelectedTeam] = useState(null);
+    const [showMatchScores, setShowMatchScores] = useState(false);
+    const [showDragHint, setShowDragHint] = useState(true);
+    const resultsRef = useRef(null);
 
     // Fetch AI-adjusted team data from the backend when the page first loads.
     // The `cancelled` flag prevents updating state if the component unmounts
@@ -128,6 +132,14 @@ export default function Home() {
         });
     }
 
+    useEffect(() => {
+        if (!snapshot) return;
+        const timer = setTimeout(() => {
+            resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 120);
+        return () => clearTimeout(timer);
+    }, [snapshot]);
+
     function onDiscipline(value) {
         setDiscipline(value);
         setSnapshot(null);
@@ -164,6 +176,7 @@ export default function Home() {
         setScoreResetVersion((v) => v + 1);
         setSnapshot(null);
         setError(null);
+        setShowDragHint(true);
     }
 
     return (
@@ -206,19 +219,19 @@ export default function Home() {
                         [
                             "1",
                             "Shape the groups",
-                            "Drag teams into your predicted order",
+                            "Pick how you think each group plays out",
                             "Draw logic",
                         ],
                         [
                             "2",
                             "Add scores your way",
-                            "Enter manual scores. Simulator fills the rest, Real Data can take over.",
+                            "Want to go deeper? Set individual match scores",
                             "Simulator / Real Data",
                         ],
                         [
                             "3",
                             "Reveal the path",
-                            "Calculate wildcards, bracket, Elo and form shifts",
+                            "See your team's full road to the trophy",
                             "Elo + form",
                         ],
                     ].map(([step, title, body, badge], index) => {
@@ -260,26 +273,17 @@ export default function Home() {
                     transition={{ duration: 0.62, ease: [0.2, 0.8, 0.2, 1] }}
                 >
                     <div className="section-masthead">
-                        <span className="section-kicker">Group stage</span>
+                        <span className="section-kicker"> 01 Group stage</span>
                         <h2 id="group-stage-heading">Shape the tournament before kickoff</h2>
                         <p>
-                            Pick the groups you want to work on, drag teams into your predicted
-                            order, enter any scores you know, then calculate the road ahead.
+                            Set the stage. Rank each group your way, set the scores you want and
+                            let AI handle the rest, then calculate with real team intelligence to
+                            see who truly earns a path to glory this World Cup.
                         </p>
                     </div>
                     <AiScoreboard />
                 </motion.section>
 
-                <ControlDock
-                    dataMode={dataMode}
-                    onDataMode={setDataMode}
-                    discipline={discipline}
-                    onDiscipline={onDiscipline}
-                    onCalculate={() => runSimulation()}
-                    onReset={handleReset}
-                    snapshot={snapshot}
-                    onHelp={() => setShowTutorial(true)}
-                />
             </header>
 
             {error ? (
@@ -294,8 +298,8 @@ export default function Home() {
                 <div className="focus-bar">
                     <div className="focus-header">
                         <div className="focus-title-block">
-                            <h2>Group Focus</h2>
-                            <p>Select any mix of groups to narrow the board and score entry.</p>
+                            <h2>Filter Groups</h2>
+                            <p>Pick the groups you want to work on. Hide the rest.</p>
                         </div>
                         <div className="focus-meta">
                             <span className="focus-count">
@@ -330,43 +334,96 @@ export default function Home() {
                 </div>
             </section>
 
-            <div className="mx-auto max-w-[1400px] px-8">
-                <div className="momentum-legend">
-                    <span className="momentum-legend-item is-positive">
-                        <Zap size={12} /> Momentum gained — team performed better than expected
-                    </span>
-                    <span className="momentum-legend-item is-negative">
-                        <Zap size={12} /> Momentum lost — team underperformed against expectations
-                    </span>
-                    <span className="momentum-legend-item is-neutral">
-                        <Zap size={12} /> No momentum shift yet — hit Calculate to simulate
-                    </span>
-                </div>
+            <div className="mx-auto max-w-[1400px] px-8 pt-4 pb-4">
+                <ControlDock
+                    dataMode={dataMode}
+                    onDataMode={setDataMode}
+                    discipline={discipline}
+                    onDiscipline={onDiscipline}
+                    onCalculate={() => runSimulation()}
+                    onReset={handleReset}
+                    snapshot={snapshot}
+                    onHelp={() => setShowTutorial(true)}
+                />
             </div>
 
-            <section
-                className="groups-section mx-auto grid max-w-[1400px] gap-5 px-8 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
-                data-tutorial="groups"
-            >
-                {visibleOrders.map((order) => (
-                    <GroupBoard
-                        key={order.group}
-                        order={order}
-                        result={resultsByGroup.get(order.group)}
-                        onDropTeam={onDropTeam}
-                        onIntelClick={setSelectedTeam}
-                    />
-                ))}
-            </section>
+            {snapshot && (
+                <div className="mx-auto max-w-[1400px] px-8">
+                    <div className="momentum-legend">
+                        <span className="momentum-legend-item is-positive">
+                            <Zap size={12} /> Momentum gained — team performed better than expected
+                        </span>
+                        <span className="momentum-legend-item is-negative">
+                            <Zap size={12} /> Momentum lost — team underperformed against expectations
+                        </span>
+                    </div>
+                </div>
+            )}
 
-            {/* key={scoreResetVersion} remounts MatchScores on reset, clearing all score inputs */}
-            <MatchScores
-                key={scoreResetVersion}
-                orders={visibleOrders}
-                allOrders={orders}
-                scores={manualScores}
-                onScoreChange={onScoreChange}
-            />
+            <div className="relative" onPointerDown={() => setShowDragHint(false)}>
+                {showDragHint && !snapshot && <DragHint />}
+                <section
+                    className="groups-section mx-auto grid max-w-[1400px] gap-5 px-8 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+                    data-tutorial="groups"
+                >
+                    {visibleOrders.map((order) => (
+                        <GroupBoard
+                            key={order.group}
+                            order={order}
+                            result={resultsByGroup.get(order.group)}
+                            onDropTeam={onDropTeam}
+                            onIntelClick={setSelectedTeam}
+                        />
+                    ))}
+                </section>
+            </div>
+
+            {/* Collapsible match score entry — hidden by default to keep the flow clean */}
+            <div className="mx-auto max-w-[1400px] px-8 mb-8">
+                <button
+                    className="scores-toggle"
+                    data-tutorial="scores-toggle"
+                    onClick={() => setShowMatchScores((v) => !v)}
+                    aria-expanded={showMatchScores}
+                >
+                    {showMatchScores
+                        ? <ChevronDown size={15} className="scores-toggle-icon" />
+                        : <ChevronRight size={15} className="scores-toggle-icon" />}
+                    <div>
+                        <p className="scores-toggle-title">Fine-tune individual match scores</p>
+                        <p className="scores-toggle-sub">Optional — enter specific goals for any match. The simulator fills the rest.</p>
+                    </div>
+                </button>
+                {showMatchScores && (
+                    <div className="mt-3">
+                        <MatchScores
+                            key={scoreResetVersion}
+                            orders={visibleOrders}
+                            allOrders={orders}
+                            scores={manualScores}
+                            onScoreChange={onScoreChange}
+                        />
+                    </div>
+                )}
+            </div>
+
+            {/* Calculate CTA — closes the input flow and prompts the user to run the simulation */}
+            {!snapshot && (
+                <div className="mx-auto max-w-[1400px] px-8 mb-10 flex justify-end">
+                    <span className="calculate-cta-wrapper">
+                        <button
+                            className="calculate-cta"
+                            onClick={() => runSimulation()}
+                            disabled={isPending}
+                        >
+                            <Activity size={15} />
+                            {isPending ? "Calculating…" : "Calculate the path"}
+                        </button>
+                    </span>
+                </div>
+            )}
+
+            <div ref={resultsRef} />
 
             {snapshot?.wildcardTable?.length ? (
                 <WildcardTable rows={snapshot.wildcardTable} />
@@ -378,6 +435,7 @@ export default function Home() {
                 <RoundOf32
                     fixtures={snapshot.roundOf32}
                     mode={dataMode}
+                    onReset={handleReset}
                     momentumByTeam={Object.fromEntries(
                         snapshot.groups
                             ?.flatMap((g) => g.standings ?? [])
@@ -390,6 +448,7 @@ export default function Home() {
                     )}
                 />
             ) : null}
+
 
             {/* Fixed status badge — shows "Calculating" while the simulation is running,
                 the snapshot time once it finishes, or "Ready" before first run. */}

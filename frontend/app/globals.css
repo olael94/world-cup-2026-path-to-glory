@@ -275,29 +275,28 @@ input {
 }
 
 .hero-highlights span {
-    background: rgba(255, 255, 255, 0.045);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 999px;
-    color: rgba(255, 255, 255, 0.78);
+    align-items: center;
+    display: inline-flex;
     font-size: 0.72rem;
-    font-weight: 900;
-    padding: 0.42rem 0.68rem;
+    font-weight: 700;
+    gap: 0.38rem;
+    letter-spacing: 0.03em;
 }
 
-.hero-highlights span:nth-child(1) {
-    border-color: rgba(113, 229, 183, 0.3);
-    color: #71e5b7;
+.hero-highlights span::before {
+    background: currentColor;
+    border-radius: 999px;
+    content: '';
+    display: inline-block;
+    flex-shrink: 0;
+    height: 0.38rem;
+    opacity: 0.85;
+    width: 0.38rem;
 }
 
-.hero-highlights span:nth-child(2) {
-    border-color: rgba(255, 177, 64, 0.32);
-    color: #ffcf7b;
-}
-
-.hero-highlights span:nth-child(3) {
-    border-color: rgba(255, 64, 116, 0.32);
-    color: #ff8aa9;
-}
+.hero-highlights span:nth-child(1) { color: #71e5b7; }
+.hero-highlights span:nth-child(2) { color: #ffcf7b; }
+.hero-highlights span:nth-child(3) { color: #ff8aa9; }
 
 /* ── Workflow strip (the 3-step "how it works" row) ─────────────────────── */
 
@@ -566,6 +565,40 @@ input {
     min-width: 6.45rem;
 }
 
+.control-discipline-info {
+    align-items: center;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
+    position: relative;
+    transition: color 160ms ease;
+}
+
+.control-discipline-info:hover,
+.control-discipline-info.is-open {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.control-discipline-tooltip {
+    background: rgba(10, 18, 28, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.55rem;
+    bottom: calc(100% + 0.5rem);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.78rem;
+    font-weight: 600;
+    left: 50%;
+    line-height: 1.4;
+    padding: 0.5rem 0.7rem;
+    position: absolute;
+    transform: translateX(-50%);
+    white-space: normal;
+    width: 14rem;
+    z-index: 50;
+}
+
 .control-slider-wrap {
     display: flex;
     flex: 1;
@@ -609,15 +642,36 @@ input {
 }
 
 .control-action-secondary {
+    animation: reset-breathe 3.5s ease-in-out infinite;
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.08);
     color: rgba(255, 255, 255, 0.74);
+}
+
+.control-action-secondary:hover {
+    animation: none;
+    border-color: rgba(255, 255, 255, 0.32);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .control-status {
     background: rgba(255, 207, 123, 0.1);
     border: 1px solid rgba(255, 207, 123, 0.3);
     color: #ffcf7b;
+    cursor: default;
+}
+
+.control-status.is-saved {
+    background: rgba(113, 229, 183, 0.1);
+    border-color: rgba(113, 229, 183, 0.3);
+    color: #71e5b7;
+    cursor: pointer;
+    transition: background 160ms ease, border-color 160ms ease;
+}
+
+.control-status.is-saved:hover {
+    background: rgba(113, 229, 183, 0.18);
+    border-color: rgba(113, 229, 183, 0.5);
 }
 
 .control-help {
@@ -937,6 +991,7 @@ input {
     letter-spacing: 0.08em;
     line-height: 1;
     margin-bottom: 0.35rem;
+    padding-top: 1rem;
     text-transform: uppercase;
 }
 
@@ -996,7 +1051,7 @@ input {
 }
 
 .groups-section {
-    padding-bottom: clamp(5.4rem, 7.2vw, 8rem);
+    padding-bottom: clamp(1.5rem, 2vw, 2rem);
 }
 
 .match-scores-section {
@@ -1526,7 +1581,8 @@ input {
 
 @media (min-width: 1280px) {
     .bracket-round-stack {
-        grid-template-rows: repeat(16, minmax(9.5rem, 9.5rem));
+        grid-auto-rows: minmax(9.5rem, 9.5rem);
+        grid-template-rows: repeat(19, minmax(9.5rem, 9.5rem));
     }
 
     .bracket-fixture-shell {
@@ -1569,6 +1625,393 @@ input {
         stroke: #71e5b7;
         stroke-width: 3;
         filter: drop-shadow(0 0 6px rgba(113, 229, 183, 0.55));
+    }
+}
+
+/* ── Match scores toggle ─────────────────────────────────────────────────── */
+
+.scores-toggle {
+    align-items: center;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+        rgba(19, 32, 43, 0.64);
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: 1.45rem;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 14px 36px rgba(0, 0, 0, 0.14);
+    cursor: pointer;
+    display: flex;
+    gap: 0.9rem;
+    padding: 0.9rem 1.2rem;
+    text-align: left;
+    transition:
+        border-color 160ms ease,
+        background 160ms ease,
+        box-shadow 160ms ease;
+    width: 100%;
+}
+
+.scores-toggle:hover {
+    border-color: rgba(113, 229, 183, 0.3);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 14px 36px rgba(0, 0, 0, 0.18),
+        0 0 0 1px rgba(113, 229, 183, 0.1);
+}
+
+.scores-toggle[aria-expanded="true"] {
+    border-color: rgba(113, 229, 183, 0.28);
+    background:
+        linear-gradient(135deg, rgba(113, 229, 183, 0.06), rgba(255, 255, 255, 0.015)),
+        rgba(19, 32, 43, 0.64);
+}
+
+.scores-toggle-icon {
+    color: rgba(255, 255, 255, 0.38);
+    flex-shrink: 0;
+    margin-top: 0.18rem;
+    transition: color 160ms ease;
+}
+
+.scores-toggle[aria-expanded="true"] .scores-toggle-icon {
+    color: #71e5b7;
+}
+
+.scores-toggle-title {
+    color: rgba(255, 255, 255, 0.82);
+    font-family: "FWC 2026", Inter, ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 900;
+    line-height: 1.05;
+}
+
+.scores-toggle-sub {
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 0.76rem;
+    font-weight: 650;
+    line-height: 1.35;
+    margin-top: 0.22rem;
+}
+
+/* ── Calculate CTA ───────────────────────────────────────────────────────── */
+
+/* Animatable angle property for the LED comet */
+@property --cta-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+
+/* Wrapper: provides the 2px border track */
+.calculate-cta-wrapper {
+    border-radius: 999px;
+    display: inline-flex;
+    isolation: isolate;
+    padding: 2px;
+    position: relative;
+}
+
+/* Dim border track — the "off" LEDs */
+.calculate-cta-wrapper::before {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    content: '';
+    inset: 0;
+    position: absolute;
+    z-index: 0;
+}
+
+/* Traveling LED comet — bright spot with comet tail circling the border */
+.calculate-cta-wrapper::after {
+    --cta-angle: 0deg;
+    animation: cta-led-travel 2s linear infinite;
+    background: conic-gradient(
+        from var(--cta-angle),
+        transparent 0deg,
+        transparent 288deg,
+        rgba(255, 64, 116, 0.35) 308deg,
+        #ff4074 322deg,
+        #ffb140 336deg,
+        #71e5b7 350deg,
+        rgba(113, 229, 183, 0.15) 358deg,
+        transparent 360deg
+    );
+    border-radius: 999px;
+    content: '';
+    filter: drop-shadow(0 0 4px #71e5b7) drop-shadow(0 0 8px #ffb140) drop-shadow(0 0 3px #ff4074);
+    inset: 0;
+    position: absolute;
+    z-index: 1;
+}
+
+@keyframes cta-led-travel {
+    to { --cta-angle: 360deg; }
+}
+
+/* Any button inside the wrapper covers the center — only the 2px track shows the LED */
+.calculate-cta-wrapper > button {
+    border: none;
+    position: relative;
+    z-index: 2;
+}
+
+/* Button covers the center — only the 2px track shows the LED */
+.calculate-cta {
+    align-items: center;
+    background: #71e5b7;
+    border: none;
+    border-radius: 999px;
+    color: #020504;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "FWC 2026", Inter, ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.74rem;
+    font-weight: 900;
+    gap: 0.4rem;
+    min-height: 2.12rem;
+    padding: 0 0.9rem;
+    position: relative;
+    white-space: nowrap;
+    z-index: 2;
+}
+
+.calculate-cta:disabled {
+    opacity: 0.5;
+}
+
+/* ── Drag hint overlay ───────────────────────────────────────────────────── */
+
+.drag-hint {
+    align-items: flex-start;
+    animation: drag-hint-fade-in 0.6s ease 0.8s both;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 20;
+}
+
+@keyframes drag-hint-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Ghost row — team row #2 being lifted */
+.drag-hint-ghost {
+    align-items: center;
+    animation: drag-hint-ghost-motion 3s ease-in-out 1.4s infinite;
+    background:
+        linear-gradient(90deg, rgba(113, 229, 183, 0.12), transparent 60%),
+        rgba(24, 38, 50, 0.92);
+    border: 1px solid rgba(113, 229, 183, 0.35);
+    border-left: 3px solid #71e5b7;
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+    display: flex;
+    gap: 0.6rem;
+    height: 2.8rem;
+    opacity: 0;
+    padding: 0 0.75rem;
+    width: 13rem;
+}
+
+.drag-hint-ghost-rank {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.82rem;
+    font-weight: 900;
+}
+
+.drag-hint-ghost-bar {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    flex: 1;
+    height: 0.55rem;
+}
+
+@keyframes drag-hint-ghost-motion {
+    0%, 15%  { opacity: 0;   transform: translateY(0); }
+    25%      { opacity: 0.8; transform: translateY(0); }         /* grabbed — hand closes */
+    45%      { opacity: 0.8; transform: translateY(-2.4rem); }   /* peak — hand opens */
+    62%      { opacity: 0.6; transform: translateY(0); }         /* dropped */
+    72%, 100%{ opacity: 0;   transform: translateY(0); }
+}
+
+/* Hand + label move together */
+.drag-hint-hand-group {
+    align-items: center;
+    animation: drag-hint-hand-motion 3s ease-in-out 1.4s infinite;
+    display: flex;
+    flex-direction: row;
+    gap: 0.55rem;
+    margin-left: 1.4rem;
+    margin-top: -0.3rem;
+}
+
+/* Hand icon wrapper */
+.drag-hint-hand {
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+    flex-shrink: 0;
+    height: 28px;
+    position: relative;
+    width: 28px;
+}
+
+/* Open hand — visible while approaching and releasing */
+.drag-hint-hand-open {
+    animation: drag-hint-open-opacity 3s ease-in-out 1.4s infinite;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+/* Grab hand — visible while holding and dragging */
+.drag-hint-hand-grab {
+    animation: drag-hint-grab-opacity 3s ease-in-out 1.4s infinite;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+}
+
+@keyframes drag-hint-hand-motion {
+    0%, 15%  { transform: translateY(0); }
+    25%      { transform: translateY(0.8rem); }   /* reached down — closes here */
+    45%      { transform: translateY(-1.6rem); }  /* peak (0.8 + 1.6 = 2.4rem travel, matches ghost) — opens here */
+    62%      { transform: translateY(0); }        /* returned */
+    72%, 100%{ transform: translateY(0); }        /* pause */
+}
+
+/* Open hand: visible while approaching, snaps shut at 25% (start of upward drag), snaps open at 45% (peak) */
+@keyframes drag-hint-open-opacity {
+    0%, 23%  { opacity: 1; }
+    25%      { opacity: 0; }   /* closes — upward drag begins */
+    45%      { opacity: 0; }
+    47%      { opacity: 1; }   /* opens at peak */
+    100%     { opacity: 1; }
+}
+
+/* Grab hand: snaps in at 25%, stays closed through the drag, snaps out at 45% */
+@keyframes drag-hint-grab-opacity {
+    0%, 23%  { opacity: 0; }
+    25%      { opacity: 1; }   /* closed — dragging up */
+    45%      { opacity: 1; }
+    47%      { opacity: 0; }   /* opens at peak */
+    100%     { opacity: 0; }
+}
+
+/* Instruction label — dark pill for legibility over tiles */
+.drag-hint-label {
+    background: rgba(8, 14, 22, 0.82);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.65rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+    padding: 0.4rem 0.65rem;
+}
+
+.drag-hint-label-primary {
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.drag-hint-label-secondary {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.64rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* ── Bracket scroll hint ─────────────────────────────────────────────────── */
+
+.bracket-scroll-hint {
+    align-items: center;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.32);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.7rem;
+    font-weight: 700;
+    gap: 0.2rem;
+    justify-content: center;
+    letter-spacing: 0.06em;
+    margin-top: 2rem;
+    text-transform: uppercase;
+    transition: color 160ms ease;
+    width: 100%;
+}
+
+.bracket-scroll-hint:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.bracket-scroll-hint-arrow {
+    animation: scroll-hint-bounce 1.6s ease-in-out infinite;
+}
+
+@keyframes scroll-hint-bounce {
+    0%, 100% { transform: translateY(0);      opacity: 0.4; }
+    50%       { transform: translateY(6px);   opacity: 1;   }
+}
+
+/* ── Reset CTA ───────────────────────────────────────────────────────────── */
+
+.reset-cta-note {
+    color: rgba(255, 255, 255, 0.32);
+    font-size: 0.74rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+    text-align: right;
+}
+
+.reset-cta {
+    align-items: center;
+    animation: reset-breathe 3.5s ease-in-out infinite;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.58);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "FWC 2026", Inter, ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.74rem;
+    font-weight: 900;
+    gap: 0.4rem;
+    min-height: 2.12rem;
+    padding: 0 0.9rem;
+    transition:
+        border-color 200ms ease,
+        color 200ms ease,
+        background 200ms ease;
+    white-space: nowrap;
+}
+
+.reset-cta:hover {
+    animation: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.32);
+    color: rgba(255, 255, 255, 0.82);
+}
+
+@keyframes reset-breathe {
+    0%, 100% {
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+    }
+    50% {
+        border-color: rgba(255, 255, 255, 0.28);
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.06), 0 0 24px rgba(255, 255, 255, 0.03);
     }
 }
 
@@ -1726,7 +2169,7 @@ input {
 .ai-scoreboard-text {
     color: #71e5b7;
     font-family: "Meicre", "FWC 2026", Inter, ui-sans-serif, system-ui, sans-serif;
-    font-size: 1.3rem;
+    font-size: clamp(0.6rem, 1.3vw, 1.3rem);
     font-weight: 400;
     letter-spacing: 0.08em;
     text-shadow:
@@ -1734,11 +2177,4 @@ input {
         0 0 20px rgba(113, 229, 183, 0.4);
     text-transform: uppercase;
     white-space: nowrap;
-}
-
-@media (max-width: 640px) {
-    .ai-scoreboard-text {
-        font-size: 0.65rem;
-        letter-spacing: 0.08em;
-    }
 }

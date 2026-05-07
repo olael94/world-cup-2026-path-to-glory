@@ -11,25 +11,31 @@ const STEPS = [
     {
         target: null,
         title: "Welcome to Path to Glory 🏆",
-        body: "Your personal 2026 World Cup simulator. Drag teams, set scores, and watch the bracket build itself. Let's walk through how it works.",
+        body: "Your personal 2026 World Cup simulator. Rank the groups, optionally set scores, and let AI calculate who truly earns a path to glory. Let's walk through how it works.",
     },
     {
         target: "[data-tutorial='groups'] .group-panel:first-child",
         title: "Shape the Groups",
-        body: "Each panel is a group. Drag teams up or down to set your predicted finishing order. Positions 1 and 2 advance automatically, position 3 enters the wildcard race for the best third-place spots, and position 4 goes home.",
+        body: "Each panel is a group. Drag teams up or down to set your predicted finishing order. Positions 1 and 2 advance automatically, position 3 enters the wildcard race, and position 4 goes home.",
         padding: 12,
     },
     {
         target: "[data-tutorial='groups'] .group-panel .team-flip-button",
-        title: "Team Intel Panel",
-        body: "Tap the arrow on any team card to open the intel panel. Inside you'll find Elo and form ratings, AI-powered news signals, injuries, player availability, and coach notes.",
+        title: "Team Intel",
+        body: "Tap the arrow on any team card to open the intel panel — Elo ratings, form, AI-powered news signals, injuries, player availability, and coach notes.",
         padding: 10,
     },
     {
         target: "[data-tutorial='focus'] .focus-chip-row",
-        title: "Group Focus",
-        body: "Too many groups at once? Click any letter to isolate just those groups on the board. Mix and match to focus on the matchups you care about.",
+        title: "Filter Groups",
+        body: "Pick the groups you want to work on. Click any letter to isolate those groups on the board. Hide the rest and keep your focus.",
         padding: 8,
+    },
+    {
+        target: "[data-tutorial='scores-toggle']",
+        title: "Fine-tune Match Scores",
+        body: "Want to go deeper? Expand this to set specific goals for any match. The AI simulator fills in everything you leave blank.",
+        padding: 10,
     },
     {
         target: "[data-tutorial='mode']",
@@ -39,27 +45,26 @@ const STEPS = [
     },
     {
         target: "[data-tutorial='discipline']",
-        title: "Discipline Slider",
-        body: "When teams are level on points, FIFA uses fair-play tiebreakers. This slider controls how much that matters. Slide right to weight it more heavily.",
+        title: "Card Impact",
+        body: "Controls how much yellow and red cards affect team performance in the simulation. Higher = cards hurt more when teams are level on points.",
         padding: 8,
     },
     {
         target: "[data-tutorial='calculate']",
-        title: "Hit Calculate",
-        body: "Runs the full simulation in one shot. Group standings, wildcards, bracket seedings, Elo shifts and momentum for every team. Hit it again anytime you change something.",
+        title: "Calculate the Path",
+        body: "Runs the full simulation — group standings, wildcards, bracket seedings, Elo shifts, and momentum for every team. A second Calculate button also sits below the match scores for convenience.",
         padding: 8,
     },
     {
         target: "[data-tutorial='reset']",
-        title: "Reset",
-        body: "Clears all your group orders and scores back to the default FIFA rankings. Use this to start a fresh scenario from scratch.",
+        title: "Reset the Board",
+        body: "Clears everything back to default FIFA rankings so you can start a fresh scenario. You'll also find a Reset button at the bracket section once results are shown.",
         padding: 8,
     },
     {
-        target: "[data-tutorial='draft']",
-        title: "Draft and Saved",
-        body: "Tracks whether your simulation has been calculated. Draft means you have unsaved changes. Once you hit Calculate it becomes Saved with a timestamp so you know exactly when your last snapshot was run.",
-        padding: 8,
+        target: null,
+        title: "Share Your Prediction",
+        body: "Once you calculate, a Share button appears in the control bar. Click it to copy a link — anyone with the URL can view your full bracket and group predictions.",
     },
 ];
 
@@ -110,9 +115,11 @@ export function Tutorial({ forceOpen = false, onClose }) {
     // spotlight cutout and tooltip card. Called on every step change, scroll, and resize.
     const measure = useCallback(() => {
         if (!current.target) {
-            // No target for this step — center the tooltip and hide the spotlight.
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            const w = Math.min(TOOLTIP_W, vw - 32);
             setSpotlight(null);
-            setTooltip({ place: "center" });
+            setTooltip({ place: "center", top: vh / 2 - 110, left: (vw - w) / 2 });
             return;
         }
         const el = document.querySelector(current.target);
@@ -256,11 +263,11 @@ export function Tutorial({ forceOpen = false, onClose }) {
                 className="pointer-events-auto fixed z-[9002] rounded-2xl border border-mint/20 py-5 px-[1.4rem]"
                 style={{
                     width: TOOLTIP_W,
+                    maxWidth: "calc(100vw - 2rem)",
+                    top: tooltip.top,
+                    left: tooltip.left,
                     background: "linear-gradient(135deg, rgba(10,18,26,0.98), rgba(6,12,18,0.98))",
                     boxShadow: "0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04)",
-                    ...(tooltip.place === "center"
-                        ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
-                        : { top: tooltip.top, left: tooltip.left }),
                 }}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}

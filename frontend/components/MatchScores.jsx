@@ -20,11 +20,12 @@ export function MatchScores({ orders, allOrders = orders, scores, onScoreChange 
         <section className="match-scores-section mx-auto max-w-[1400px] px-8">
             <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
                 <div className="section-masthead">
-                    <span className="section-kicker">Manual entry</span>
+                    <span className="section-kicker">02 Manual entry</span>
                     <h2>Match Scores</h2>
                     <p>
-                        Only focused groups appear here. Add known scores and let the simulator fill
-                        the blanks.
+                        Set scores for any team and watch the group shift. Back your nation through
+                        the storm, or bend any result to your will and see who truly earns the right
+                        to advance.
                     </p>
                 </div>
                 <div className="section-stat-pill">

@@ -149,3 +149,23 @@ def simulate(request: SimulateRequest):
         raise HTTPException(status_code=500, detail=str(e)) from e
     finally:
         session.close()
+
+
+@app.get("/snapshot/{snapshot_id}")
+def get_snapshot(snapshot_id: str):
+    """Returns a saved simulation by its ID so users can share and revisit predictions."""
+    import uuid as uuid_lib
+    session = get_session()
+    try:
+        try:
+            parsed_id = uuid_lib.UUID(snapshot_id)
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid snapshot ID format")
+        snap = session.query(TournamentSnapshot).filter(
+            TournamentSnapshot.id == parsed_id
+        ).first()
+        if not snap:
+            raise HTTPException(status_code=404, detail="Snapshot not found")
+        return to_response(snap)
+    finally:
+        session.close()
