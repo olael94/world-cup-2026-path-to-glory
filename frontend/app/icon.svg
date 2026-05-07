@@ -1,5 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#05090d"/>
-  <circle cx="32" cy="32" r="22" fill="#71e5b7"/>
-  <path fill="#05090d" d="M21 18h22v7H30v7h11v7H30v7H21z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#09141d"/>
+      <stop offset="100%" stop-color="#142231"/>
+    </linearGradient>
+    <linearGradient id="t" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a0f0d8"/>
+      <stop offset="100%" stop-color="#3dbf91"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#71e5b7"/>
+      <stop offset="50%" stop-color="#ffb140"/>
+      <stop offset="100%" stop-color="#ff4074"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+
+  <!-- Top accent -->
+  <rect x="8" y="3.5" width="16" height="1.5" rx="0.75" fill="url(#acc)" opacity="0.8"/>
+
+  <!-- Star -->
+  <path transform="translate(16, 8)"
+        d="M0-3.2 .76-1.04 3.04-1.04 1.24.4 1.9 2.56 0 1.34-1.9 2.56-1.24.4-3.04-1.04-.76-1.04Z"
+        fill="#ffb140"/>
+
+  <!-- Trophy cup -->
+  <path d="M 11 11.5 Q 16 10.5 21 11.5 L 19.5 19.5 Q 16 20.5 12.5 19.5 Z"
+        fill="url(#t)"/>
+
+  <!-- Left handle -->
+  <path d="M 11.2 12.8 Q 8.5 12.8 8.5 15.5 Q 8.5 18 11.2 18.5"
+        fill="none" stroke="#71e5b7" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- Right handle -->
+  <path d="M 20.8 12.8 Q 23.5 12.8 23.5 15.5 Q 23.5 18 20.8 18.5"
+        fill="none" stroke="#71e5b7" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- Stem -->
+  <rect x="15" y="19.5" width="2" height="3" rx="0.5" fill="#3dbf91"/>
+
+  <!-- Base -->
+  <rect x="12.5" y="22.5" width="7" height="1.8" rx="0.9" fill="url(#acc)" opacity="0.85"/>
+
+  <!-- Bottom accent -->
+  <rect x="8" y="27.5" width="16" height="1.5" rx="0.75" fill="url(#acc)" opacity="0.55"/>
 </svg>
