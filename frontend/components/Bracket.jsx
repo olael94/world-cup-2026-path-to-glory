@@ -110,6 +110,13 @@ function signed(value) {
 
 const K_KNOCKOUT = 20;
 
+const PATH_COLORS_RGB = [
+    "113, 229, 183", // mint
+    "255, 177, 64", // amber
+    "100, 160, 255", // blue
+    "255, 100, 160", // pink
+];
+
 function eloWinProbability(eloA, eloB) {
     return 1.0 / (1.0 + Math.pow(10, -(eloA - eloB) / 400));
 }
@@ -131,6 +138,7 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
     const bracketRef = useRef(null);
     const fixtureRefs = useRef(new Map());
     const [connectorPaths, setConnectorPaths] = useState([]);
+    const mobileRoundRefs = useRef([]);
 
     /* eslint-disable react-hooks/set-state-in-effect */
     useEffect(() => {
@@ -182,6 +190,36 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
             }
             return next;
         });
+
+        if (!isDeselecting && typeof window !== "undefined" && window.innerWidth < 1280) {
+            const currentRoundIndex = bracketRounds.findIndex((r) =>
+                r.fixtures.some((f) => f.displayId === fixture.displayId)
+            );
+            const currentRound = bracketRounds[currentRoundIndex];
+            const nextRoundEl = mobileRoundRefs.current[currentRoundIndex + 1];
+
+            if (nextRoundEl && currentRound) {
+                const groupSize = currentRoundIndex === 0 ? 4 : 2;
+                const fixtureIndex = currentRound.fixtures.findIndex(
+                    (f) => f.displayId === fixture.displayId
+                );
+                const groupStart = Math.floor(fixtureIndex / groupSize) * groupSize;
+                const group = currentRound.fixtures.slice(groupStart, groupStart + groupSize);
+
+                const allGroupPicked = group.every(
+                    (f) => f.winner || f.displayId === fixture.displayId || picks[f.displayId]
+                );
+                if (allGroupPicked) {
+                    requestAnimationFrame(() => {
+                        nextRoundEl.scrollIntoView({
+                            behavior: "smooth",
+                            inline: "start",
+                            block: "nearest",
+                        });
+                    });
+                }
+            }
+        }
     }
 
     function onFixtureDrop(fixture, event) {
@@ -276,7 +314,10 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
                 </span>
             </div>
 
-            <div ref={bracketRef} className="bracket-frame grid gap-4 xl:grid-cols-5 xl:gap-8">
+            <div
+                ref={bracketRef}
+                className="bracket-frame flex snap-x snap-mandatory overflow-x-auto gap-4 pb-4 xl:grid xl:grid-cols-5 xl:gap-8 xl:overflow-visible xl:pb-0"
+            >
                 <svg className="bracket-connectors" aria-hidden="true">
                     {connectorPaths.map((path) => (
                         <path key={path.id} className={path.active ? "is-active" : ""} d={path.d} />
@@ -285,10 +326,39 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
 
                 {bracketRounds.map((round, roundIndex) => {
                     const roundSpan = 2 ** roundIndex;
+                    const groupSize = roundIndex === 0 ? 4 : 2;
+
+                    // For each group in this round, find the winner color if any pick exists
+                    const groupGlowStyles = round.fixtures.map((_, i) => {
+                        const gs = Math.floor(i / groupSize) * groupSize;
+                        const group = round.fixtures.slice(gs, gs + groupSize);
+                        const pickedWinner = group
+                            .map((gf) => gf.winner || picks[gf.displayId])
+                            .find(Boolean);
+                        const team = pickedWinner ? teamByName[pickedWinner] : null;
+                        return team ? groupStyle(team.group) : null;
+                    });
+
+                    const pendingCount = round.fixtures.filter((f, i) => {
+                        return groupGlowStyles[i] && !(f.winner || picks[f.displayId]);
+                    }).length;
+
                     return (
-                        <div key={round.name} className="min-w-0" data-round={roundIndex}>
-                            <h3 className="mb-2 text-sm font-semibold uppercase text-white/45">
+                        <div
+                            key={round.name}
+                            ref={(node) => {
+                                mobileRoundRefs.current[roundIndex] = node;
+                            }}
+                            className="w-full shrink-0 snap-start xl:w-auto xl:min-w-0"
+                            data-round={roundIndex}
+                        >
+                            <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold uppercase text-white/45">
                                 {round.name}
+                                {pendingCount > 0 && (
+                                    <span className="bracket-pending-badge">
+                                        {pendingCount} picks to advance
+                                    </span>
+                                )}
                             </h3>
                             <div className="bracket-round-stack">
                                 {round.fixtures.map((fixture, fixtureIndex) => (
@@ -301,12 +371,21 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
                                             else fixtureRefs.current.delete(fixture.displayId);
                                         }}
                                         style={{
-                                            "--fixture-start": fixtureIndex * roundSpan + 1,
+                                            "--fixture-start":
+                                                fixtureIndex * roundSpan +
+                                                1 +
+                                                Math.floor((fixtureIndex * roundSpan) / 4),
                                             "--fixture-span": roundSpan,
                                         }}
                                     >
                                         <FixtureCard
                                             fixture={fixture}
+                                            userPick={picks[fixture.displayId]}
+                                            pathGroupIndex={
+                                                groupGlowStyles[fixtureIndex]
+                                                    ? Math.floor(fixtureIndex / groupSize)
+                                                    : null
+                                            }
                                             isLocked={isLockedFixture(fixture, mode)}
                                             onDrop={(event) => onFixtureDrop(fixture, event)}
                                             onPick={(teamName) => selectWinner(fixture, teamName)}
@@ -325,9 +404,20 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
 
 // ─── Fixture card & team row ──────────────────────────────────────────────────
 
-function FixtureCard({ fixture, isLocked, onDrop, onPick, momentumByTeam = {} }) {
-    const winner = fixture.winner;
+function FixtureCard({
+    fixture,
+    userPick,
+    pathGroupIndex,
+    isLocked,
+    onDrop,
+    onPick,
+    momentumByTeam = {},
+}) {
+    const winner = fixture.winner || userPick;
     const winnerTeam = teamByName[winner];
+    const isUndetermined = !isConcreteTeam(fixture.home) && !isConcreteTeam(fixture.away);
+    const isInPath = pathGroupIndex != null;
+    const pathRgb = isInPath ? PATH_COLORS_RGB[pathGroupIndex % PATH_COLORS_RGB.length] : null;
 
     return (
         <div
@@ -337,8 +427,13 @@ function FixtureCard({ fixture, isLocked, onDrop, onPick, momentumByTeam = {} })
             onDrop={onDrop}
             className={`bracket-fixture-card rounded-md border bg-panel/80 p-3 ${
                 winner ? "is-picked border-mint/55" : "border-line"
-            } ${isLocked ? "opacity-70" : ""}`}
-            style={winnerTeam ? groupStyle(winnerTeam.group) : undefined}
+            } ${isLocked ? "opacity-70" : ""} ${isUndetermined ? "is-undetermined" : ""} ${
+                isInPath ? "is-in-path" : ""
+            }`}
+            style={{
+                ...(winnerTeam ? groupStyle(winnerTeam.group) : {}),
+                ...(pathRgb ? { "--path-rgb": pathRgb } : {}),
+            }}
         >
             <div className="mb-2 flex items-center justify-between gap-2 text-xs text-white/45">
                 <span className="whitespace-nowrap">{fixture.displayId}</span>

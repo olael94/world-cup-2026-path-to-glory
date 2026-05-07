@@ -34,20 +34,22 @@
 body {
     margin: 0;
 
-    background: radial-gradient(circle at top left, rgba(0, 180, 255, 0.18), transparent 28%),
-    radial-gradient(circle at top right, rgba(255, 90, 0, 0.16), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(255, 0, 140, 0.1), transparent 32%),
-    linear-gradient(180deg, #13202b 0%, #172b3a 45%, #1c3445 100%);
+    background:
+        radial-gradient(circle at top left, rgba(0, 180, 255, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(255, 90, 0, 0.16), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(255, 0, 140, 0.1), transparent 32%),
+        linear-gradient(180deg, #13202b 0%, #172b3a 45%, #1c3445 100%);
 
     color: #f8fafc;
 
-    font-family: Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
     min-height: 100vh;
 }
@@ -145,14 +147,15 @@ input {
 }
 
 .hero-video-layer::after {
-    background: radial-gradient(circle at 16% 20%, rgba(105, 235, 190, 0.18), transparent 24rem),
-    linear-gradient(
+    background:
+        radial-gradient(circle at 16% 20%, rgba(105, 235, 190, 0.18), transparent 24rem),
+        linear-gradient(
             90deg,
             rgba(10, 18, 28, 0.42),
             rgba(10, 18, 28, 0.58) 42%,
             rgba(10, 18, 28, 0.78)
-    ),
-    linear-gradient(180deg, rgba(10, 18, 28, 0.12), rgba(19, 32, 43, 0.92) 91%);
+        ),
+        linear-gradient(180deg, rgba(10, 18, 28, 0.12), rgba(19, 32, 43, 0.92) 91%);
     content: "";
     inset: 0;
     position: absolute;
@@ -170,12 +173,13 @@ input {
 
 .hero-video-fallback {
     animation: stadiumPan 16s ease-in-out infinite alternate;
-    background: radial-gradient(circle at 16% 24%, rgba(113, 229, 183, 0.24), transparent 18%),
-    radial-gradient(circle at 34% 72%, rgba(76, 132, 255, 0.17), transparent 20%),
-    radial-gradient(circle at 72% 28%, rgba(255, 177, 64, 0.2), transparent 22%),
-    radial-gradient(circle at 82% 72%, rgba(255, 64, 116, 0.18), transparent 18%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 5rem),
-    linear-gradient(125deg, rgba(10, 28, 44, 0.95), rgba(31, 18, 10, 0.9));
+    background:
+        radial-gradient(circle at 16% 24%, rgba(113, 229, 183, 0.24), transparent 18%),
+        radial-gradient(circle at 34% 72%, rgba(76, 132, 255, 0.17), transparent 20%),
+        radial-gradient(circle at 72% 28%, rgba(255, 177, 64, 0.2), transparent 22%),
+        radial-gradient(circle at 82% 72%, rgba(255, 64, 116, 0.18), transparent 18%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 5rem),
+        linear-gradient(125deg, rgba(10, 28, 44, 0.95), rgba(31, 18, 10, 0.9));
     filter: saturate(1.2);
     height: 115%;
     inset: -8% -6%;
@@ -216,15 +220,17 @@ input {
 
 .hero-title {
     color: #fff;
-    font-family: "FIFA 26", "Arial Black", "Avenir Next Condensed", Impact, Haettenschweiler,
-    "Franklin Gothic Heavy", sans-serif;
+    font-family:
+        "FIFA 26", "Arial Black", "Avenir Next Condensed", Impact, Haettenschweiler,
+        "Franklin Gothic Heavy", sans-serif;
     font-size: clamp(3.4rem, 7.4vw, 7.2rem);
     font-weight: 950;
     letter-spacing: 0;
     line-height: 0.86;
     margin-top: 0.72rem;
-    text-shadow: 0 0 28px rgba(113, 229, 183, 0.08),
-    0 14px 38px rgba(0, 0, 0, 0.28);
+    text-shadow:
+        0 0 28px rgba(113, 229, 183, 0.08),
+        0 14px 38px rgba(0, 0, 0, 0.28);
 }
 
 .hero-copy {
@@ -277,10 +283,10 @@ input {
 
 .workflow-strip::before {
     background: linear-gradient(
-            90deg,
-            rgba(113, 229, 183, 0.7),
-            rgba(255, 177, 64, 0.54),
-            rgba(255, 64, 116, 0.58)
+        90deg,
+        rgba(113, 229, 183, 0.7),
+        rgba(255, 177, 64, 0.54),
+        rgba(255, 64, 116, 0.58)
     );
     content: "";
     height: 1px;
@@ -314,10 +320,12 @@ input {
 
 .workflow-step:hover .workflow-step-mark {
     border-color: rgba(24, 38, 50, 0.88);
-    box-shadow: 0 0 0 6px rgba(19, 32, 43, 0.95),
-    0 0 32px rgba(113, 229, 183, 0.35);
-    transition: box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    border-color 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow:
+        0 0 0 6px rgba(19, 32, 43, 0.95),
+        0 0 32px rgba(113, 229, 183, 0.35);
+    transition:
+        box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-color 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .workflow-step::after {
@@ -337,12 +345,14 @@ input {
 
 .workflow-step-mark {
     align-items: center;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.025)),
-    rgba(8, 15, 20, 0.86);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.025)),
+        rgba(8, 15, 20, 0.86);
     border: 1px solid rgba(113, 229, 183, 0.28);
     border-radius: 999px;
-    box-shadow: 0 0 0 6px rgba(5, 9, 13, 1),
-    0 0 24px rgba(113, 229, 183, 0.12);
+    box-shadow:
+        0 0 0 6px rgba(5, 9, 13, 1),
+        0 0 24px rgba(113, 229, 183, 0.12);
     display: inline-flex;
     gap: 0.45rem;
     height: 3rem;
@@ -420,16 +430,14 @@ input {
 }
 
 .control-dock {
-    background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.045),
-            rgba(255, 255, 255, 0.018)
-    ),
-    rgba(19, 32, 43, 0.72);
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
+        rgba(19, 32, 43, 0.72);
     border: 1px solid rgba(255, 255, 255, 0.075);
     border-radius: 2rem;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 16px 42px rgba(5, 12, 20, 0.22);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 16px 42px rgba(5, 12, 20, 0.22);
     padding: 0.42rem;
 }
 
@@ -480,8 +488,9 @@ input {
     justify-content: center;
     padding: 0.34rem 0.52rem;
     position: relative;
-    transition: color 180ms ease,
-    transform 180ms ease;
+    transition:
+        color 180ms ease,
+        transform 180ms ease;
     z-index: 1;
 }
 
@@ -599,8 +608,9 @@ input {
     font-weight: 700;
     gap: 0.35rem;
     padding: 0.35rem 0.85rem;
-    transition: border-color 0.2s,
-    color 0.2s;
+    transition:
+        border-color 0.2s,
+        color 0.2s;
 }
 
 .control-help-btn:hover {
@@ -705,12 +715,14 @@ input {
 }
 
 .focus-bar {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
-    rgba(19, 32, 43, 0.64);
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+        rgba(19, 32, 43, 0.64);
     border: 1px solid rgba(255, 255, 255, 0.075);
     border-radius: 1.45rem;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 14px 36px rgba(0, 0, 0, 0.14);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 14px 36px rgba(0, 0, 0, 0.14);
     padding: 0.9rem 1rem;
 }
 
@@ -771,9 +783,10 @@ input {
     border: 1px solid rgba(113, 229, 183, 0.26);
     color: #8ff0cc;
     padding: 0 0.88rem;
-    transition: background 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease;
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease;
 }
 
 .focus-show-all.is-filtered {
@@ -807,10 +820,11 @@ input {
     gap: 0.4rem;
     min-height: 1.9rem;
     padding: 0.28rem 0.68rem;
-    transition: background 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease,
-    box-shadow 160ms ease;
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        box-shadow 160ms ease;
 }
 
 .focus-chip-dot {
@@ -823,12 +837,14 @@ input {
 }
 
 .focus-chip.is-active {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025)),
-    rgba(var(--group-rgb), 0.11);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025)),
+        rgba(var(--group-rgb), 0.11);
     border-color: rgba(var(--group-rgb), 0.48);
     color: #fff;
-    box-shadow: inset 0 -2px 0 rgba(var(--group-rgb), 0.75),
-    0 8px 22px rgba(var(--group-rgb), 0.1);
+    box-shadow:
+        inset 0 -2px 0 rgba(var(--group-rgb), 0.75),
+        0 8px 22px rgba(var(--group-rgb), 0.1);
 }
 
 .focus-chip.is-active .focus-chip-dot {
@@ -857,10 +873,12 @@ input {
     position: relative;
     overflow: hidden;
     border-color: rgba(255, 255, 255, 0.09);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
-    rgba(18, 30, 40, 0.9);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 10px 26px rgba(0, 0, 0, 0.18);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+        rgba(18, 30, 40, 0.9);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        0 10px 26px rgba(0, 0, 0, 0.18);
 }
 
 .group-panel::before {
@@ -904,8 +922,9 @@ input {
 
 .section-stat-pill {
     align-items: center;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.025)),
-    rgba(24, 38, 50, 0.82);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.025)),
+        rgba(24, 38, 50, 0.82);
     border: 1px solid rgba(255, 255, 255, 0.095);
     border-radius: 999px;
     color: rgba(255, 255, 255, 0.68);
@@ -981,8 +1000,9 @@ input {
     background: rgba(var(--group-rgb), 0.14);
     border: 3px solid var(--group-color);
     border-radius: 999px;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.28),
-    0 0 18px rgba(var(--group-rgb), 0.22);
+    box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.28),
+        0 0 18px rgba(var(--group-rgb), 0.22);
     color: #fff;
     display: inline-flex;
     font-size: clamp(1rem, 1.6vw, 1.4rem);
@@ -996,10 +1016,11 @@ input {
 .ranking-slot {
     background: rgba(255, 255, 255, 0.025);
     border-color: rgba(255, 255, 255, 0.075);
-    transition: background 160ms ease,
-    border-color 160ms ease,
-    transform 160ms ease,
-    box-shadow 160ms ease;
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        transform 160ms ease,
+        box-shadow 160ms ease;
 }
 
 .ranking-slot:hover {
@@ -1030,15 +1051,18 @@ input {
     border-color: rgba(255, 255, 255, 0.08);
     border-left-color: var(--group-color);
     border-left-width: 3px;
-    background: linear-gradient(90deg, rgba(var(--group-rgb), 0.085), transparent 28%),
-    rgba(24, 38, 50, 0.88);
-    transition: border-color 160ms ease,
-    background 160ms ease;
+    background:
+        linear-gradient(90deg, rgba(var(--group-rgb), 0.085), transparent 28%),
+        rgba(24, 38, 50, 0.88);
+    transition:
+        border-color 160ms ease,
+        background 160ms ease;
 }
 
 .team-card.is-momentum {
-    background: linear-gradient(90deg, rgba(var(--group-rgb), 0.14), transparent 32%),
-    rgba(28, 44, 58, 0.94);
+    background:
+        linear-gradient(90deg, rgba(var(--group-rgb), 0.14), transparent 32%),
+        rgba(28, 44, 58, 0.94);
     border-color: rgba(var(--group-rgb), 0.44);
 }
 
@@ -1055,10 +1079,11 @@ input {
     display: inline-flex;
     height: 1.45rem;
     justify-content: center;
-    transition: background 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease,
-    box-shadow 160ms ease;
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        box-shadow 160ms ease;
     width: 1.45rem;
 }
 
@@ -1084,8 +1109,9 @@ input {
 }
 
 .team-range-track {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(var(--group-rgb), 0.36)),
-    rgba(255, 255, 255, 0.04);
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(var(--group-rgb), 0.36)),
+        rgba(255, 255, 255, 0.04);
     border-radius: 999px;
     height: 0.32rem;
     position: relative;
@@ -1104,20 +1130,23 @@ input {
 }
 
 .match-fixture-row {
-    background: linear-gradient(90deg, rgba(var(--group-rgb), 0.085), transparent 28%),
-    rgba(24, 38, 50, 0.88);
+    background:
+        linear-gradient(90deg, rgba(var(--group-rgb), 0.085), transparent 28%),
+        rgba(24, 38, 50, 0.88);
     border-color: rgba(255, 255, 255, 0.08);
     border-left-color: var(--group-color);
     border-left-width: 3px;
-    transition: background 160ms ease,
-    border-color 160ms ease,
-    box-shadow 160ms ease;
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        box-shadow 160ms ease;
 }
 
 .match-fixture-row:hover,
 .match-fixture-row:focus-within {
-    background: linear-gradient(90deg, rgba(var(--group-rgb), 0.14), transparent 32%),
-    rgba(30, 46, 60, 0.94);
+    background:
+        linear-gradient(90deg, rgba(var(--group-rgb), 0.14), transparent 32%),
+        rgba(30, 46, 60, 0.94);
     border-color: rgba(var(--group-rgb), 0.44);
     box-shadow: inset 0 0 0 1px rgba(var(--group-rgb), 0.12);
 }
@@ -1137,15 +1166,17 @@ input {
 }
 
 .wildcard-row {
-    background: linear-gradient(90deg, rgba(var(--group-rgb), 0.105), transparent 28%),
-    rgba(255, 255, 255, 0.018);
+    background:
+        linear-gradient(90deg, rgba(var(--group-rgb), 0.105), transparent 28%),
+        rgba(255, 255, 255, 0.018);
     border-left: 4px solid var(--group-color);
     color: rgba(255, 255, 255, 0.7);
     position: relative;
-    transition: background 160ms ease,
-    box-shadow 160ms ease,
-    border-color 160ms ease,
-    opacity 160ms ease;
+    transition:
+        background 160ms ease,
+        box-shadow 160ms ease,
+        border-color 160ms ease,
+        opacity 160ms ease;
 }
 
 .wildcard-row:not(.is-qualified) {
@@ -1158,9 +1189,10 @@ input {
 }
 
 .wildcard-row.is-qualified {
-    background: linear-gradient(90deg, rgba(113, 229, 183, 0.13), transparent 28%),
-    linear-gradient(90deg, rgba(var(--group-rgb), 0.08), transparent 34%),
-    rgba(24, 40, 34, 0.76);
+    background:
+        linear-gradient(90deg, rgba(113, 229, 183, 0.13), transparent 28%),
+        linear-gradient(90deg, rgba(var(--group-rgb), 0.08), transparent 34%),
+        rgba(24, 40, 34, 0.76);
     box-shadow: inset 0 1px 0 rgba(113, 229, 183, 0.16);
 }
 
@@ -1230,8 +1262,56 @@ input {
     gap: 0.5rem;
 }
 
+@media (max-width: 1279px) {
+    .bracket-round-stack {
+        display: grid;
+        grid-template-rows:
+            repeat(4, 9rem) 3rem
+            repeat(4, 9rem) 3rem
+            repeat(4, 9rem) 3rem
+            repeat(4, 9rem);
+        gap: 0;
+    }
+
+    .bracket-fixture-shell {
+        grid-row: var(--fixture-start) / span var(--fixture-span);
+        align-self: center;
+    }
+
+    [data-round="0"] .bracket-fixture-shell:nth-child(4n + 1):not(:first-child)::before {
+        content: "";
+        position: absolute;
+        top: -1.5rem;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.14) 20%,
+            rgba(255, 255, 255, 0.14) 80%,
+            transparent
+        );
+    }
+}
+
 .bracket-frame {
     position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(113, 229, 183, 0.4) transparent;
+}
+
+.bracket-frame::-webkit-scrollbar {
+    height: 6px;
+}
+
+.bracket-frame::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.bracket-frame::-webkit-scrollbar-thumb {
+    background: rgba(113, 229, 183, 0.35);
+    border-radius: 999px;
 }
 
 .bracket-connectors {
@@ -1246,14 +1326,46 @@ input {
 .bracket-fixture-card {
     position: relative;
     min-width: 0;
-    transition: border-color 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background 160ms ease;
+}
+
+.bracket-pending-badge {
+    background: rgba(255, 177, 64, 0.1);
+    border: 1px solid rgba(255, 177, 64, 0.28);
+    border-radius: 999px;
+    color: rgba(255, 177, 64, 0.8);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    padding: 0.15rem 0.48rem;
+}
+
+.bracket-fixture-card.is-undetermined {
+    border-style: dashed;
+    opacity: 0.38;
+}
+
+.bracket-fixture-card.is-in-path:not(.is-picked) {
+    border-color: rgba(var(--path-rgb), 0.65);
+    box-shadow:
+        0 0 22px rgba(var(--path-rgb), 0.38),
+        0 0 0 1px rgba(var(--path-rgb), 0.32);
+}
+
+.bracket-fixture-card.is-picked.is-in-path {
+    box-shadow:
+        0 0 20px rgba(var(--group-rgb), 0.28),
+        0 0 36px rgba(var(--group-rgb), 0.14),
+        0 0 0 1px rgba(var(--group-rgb), 0.4);
 }
 
 .bracket-fixture-card.is-picked {
-    background: linear-gradient(90deg, rgba(var(--group-rgb), 0.1), transparent 48%),
-    rgba(113, 229, 183, 0.06);
+    background:
+        linear-gradient(90deg, rgba(var(--group-rgb), 0.1), transparent 48%),
+        rgba(113, 229, 183, 0.06);
     border-color: rgba(var(--group-rgb), 0.58);
     box-shadow: 0 0 18px rgba(var(--group-rgb), 0.12);
 }
@@ -1467,9 +1579,10 @@ input {
     gap: 0.4rem;
     padding: 0.38rem 0.82rem;
     text-decoration: none;
-    transition: border-color 160ms ease,
-    color 160ms ease,
-    background 160ms ease;
+    transition:
+        border-color 160ms ease,
+        color 160ms ease,
+        background 160ms ease;
 }
 
 .site-footer-github:hover {
@@ -1505,11 +1618,11 @@ input {
 
 .ai-scoreboard-wrap::before {
     background: repeating-linear-gradient(
-            90deg,
-            rgba(113, 229, 183, 0.03) 0px,
-            rgba(113, 229, 183, 0.03) 1px,
-            transparent 1px,
-            transparent 6px
+        90deg,
+        rgba(113, 229, 183, 0.03) 0px,
+        rgba(113, 229, 183, 0.03) 1px,
+        transparent 1px,
+        transparent 6px
     );
     content: "";
     inset: 0;
@@ -1521,8 +1634,9 @@ input {
     align-items: center;
     display: inline-flex;
     gap: 0.65rem;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.4s ease;
+    transition:
+        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.4s ease;
 }
 
 .ai-scoreboard-inner.is-enter {
@@ -1555,8 +1669,9 @@ input {
     font-size: 1.3rem;
     font-weight: 400;
     letter-spacing: 0.08em;
-    text-shadow: 0 0 8px rgba(113, 229, 183, 0.8),
-    0 0 20px rgba(113, 229, 183, 0.4);
+    text-shadow:
+        0 0 8px rgba(113, 229, 183, 0.8),
+        0 0 20px rgba(113, 229, 183, 0.4);
     text-transform: uppercase;
     white-space: nowrap;
 }
