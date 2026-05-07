@@ -137,10 +137,27 @@ export function Tutorial({ forceOpen = false, onClose }) {
             h: r.height + pad * 2,
         });
 
-        // If the target element is near the top or bottom edge, scroll it into the center.
         const midY = r.top + r.height / 2;
-        if (r.top < 80 || r.bottom > vh - 80) {
-            window.scrollTo({ top: window.scrollY + midY - vh / 2, behavior: "smooth" });
+        const needsScroll = r.top < 80 || r.bottom > vh - 80;
+
+        if (needsScroll) {
+            if (window.innerWidth >= 768) {
+                // Desktop: smooth scroll, then re-measure only after scroll finishes
+                // so the spotlight never renders mid-scroll in the wrong position.
+                window.scrollTo({ top: window.scrollY + midY - vh / 2, behavior: "smooth" });
+                let done = false;
+                const finish = () => {
+                    if (done) return;
+                    done = true;
+                    window.removeEventListener("scrollend", finish);
+                    measure();
+                };
+                window.addEventListener("scrollend", finish, { once: true });
+                setTimeout(finish, 600); // fallback for browsers without scrollend
+                return;
+            }
+            // Mobile: instant scroll, measure right away
+            window.scrollTo({ top: window.scrollY + midY - vh / 2, behavior: "instant" });
         }
 
         // Prefer placing the tooltip below the element. Fall back to above if there's more room.
@@ -161,9 +178,9 @@ export function Tutorial({ forceOpen = false, onClose }) {
 
     useEffect(() => {
         if (!active) return;
-        // Small delay before measuring so the page has time to scroll or render
+        // Small delay before measuring so the page has time to render
         // before we read the target element's position.
-        const t = setTimeout(measure, 100);
+        const t = setTimeout(measure, 40);
         // On scroll/resize, cancel any pending frame and schedule a fresh measurement.
         // This prevents the spotlight from lagging behind on fast scrolls.
         const onScroll = () => {
