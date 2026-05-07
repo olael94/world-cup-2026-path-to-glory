@@ -135,9 +135,7 @@ export function ControlDock({
                     >
                         <RotateCcw size={16} /> Reset
                     </button>
-                    {snapshot?.snapshotId && (
-                        <ShareButton snapshotId={snapshot.snapshotId} />
-                    )}
+                    {snapshot?.snapshotId && <ShareButton snapshotId={snapshot.snapshotId} />}
                 </div>
 
                 <button className="control-help-btn" onClick={onHelp}>

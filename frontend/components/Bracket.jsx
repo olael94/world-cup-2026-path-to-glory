@@ -107,7 +107,9 @@ export function WildcardTable({ rows }) {
             <button
                 className="bracket-scroll-hint"
                 onClick={() =>
-                    document.getElementById("bracket-section")?.scrollIntoView({ behavior: "smooth", block: "start" })
+                    document
+                        .getElementById("bracket-section")
+                        ?.scrollIntoView({ behavior: "smooth", block: "start" })
                 }
             >
                 <ChevronDown size={18} className="bracket-scroll-hint-arrow" />
@@ -138,7 +140,13 @@ function eloWinProbability(eloA, eloB) {
     return 1.0 / (1.0 + Math.pow(10, -(eloA - eloB) / 400));
 }
 
-export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, eloByTeam = {}, onReset }) {
+export function RoundOf32({
+    fixtures,
+    mode = "simulation",
+    momentumByTeam = {},
+    eloByTeam = {},
+    onReset,
+}) {
     // Add a stable displayId to each fixture so we can key picks and refs by it,
     // since the backend matchNo alone isn't guaranteed to be sequential from 1.
     const roundOf32 = useMemo(

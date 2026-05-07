@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 function HandOpen() {
     return (
@@ -25,9 +25,24 @@ function HandGrab() {
                 strokeWidth="1.6"
                 strokeLinecap="round"
             />
-            <path d="M10 8 L10 6 C10 5.2 10.9 4.5 11.5 5" stroke="white" strokeWidth="1.4" strokeLinecap="round" />
-            <path d="M12.5 8 L12.5 5 C12.5 4.2 13.4 3.8 14 4.2" stroke="white" strokeWidth="1.4" strokeLinecap="round" />
-            <path d="M15 8 L15 6.5 C15 5.7 15.9 5.2 16.5 5.6" stroke="white" strokeWidth="1.4" strokeLinecap="round" />
+            <path
+                d="M10 8 L10 6 C10 5.2 10.9 4.5 11.5 5"
+                stroke="white"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+            />
+            <path
+                d="M12.5 8 L12.5 5 C12.5 4.2 13.4 3.8 14 4.2"
+                stroke="white"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+            />
+            <path
+                d="M15 8 L15 6.5 C15 5.7 15.9 5.2 16.5 5.6"
+                stroke="white"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+            />
             <path
                 d="M8 11 L8 15 C8 17.2 9.8 19 12 19 L13 19 C15.2 19 17 17.2 17 15 L17 11"
                 stroke="white"
@@ -105,12 +120,18 @@ export function DragHint() {
 
             <div className="drag-hint-hand-group">
                 <div className="drag-hint-hand">
-                    <div className="drag-hint-hand-open"><HandOpen /></div>
-                    <div className="drag-hint-hand-grab"><HandGrab /></div>
+                    <div className="drag-hint-hand-open">
+                        <HandOpen />
+                    </div>
+                    <div className="drag-hint-hand-grab">
+                        <HandGrab />
+                    </div>
                 </div>
                 <div className="drag-hint-label">
                     <span className="drag-hint-label-primary">Drag to rank your groups</span>
-                    <span className="drag-hint-label-secondary">Optionally enter scores, then calculate</span>
+                    <span className="drag-hint-label-secondary">
+                        Optionally enter scores, then calculate
+                    </span>
                 </div>
             </div>
         </div>

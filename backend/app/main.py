@@ -28,9 +28,9 @@ logger = logging.getLogger(__name__)
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://path:glory@localhost:5432/path_to_glory")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-ALLOWED_ORIGINS = os.getenv(
-    "ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000"
-).split(",")
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(
+    ","
+)
 
 # Shared list of teams used by all incoming requests.
 # Starts with the base team data, then gets replaced once the AI data is ready.
@@ -155,15 +155,14 @@ def simulate(request: SimulateRequest):
 def get_snapshot(snapshot_id: str):
     """Returns a saved simulation by its ID so users can share and revisit predictions."""
     import uuid as uuid_lib
+
     session = get_session()
     try:
         try:
             parsed_id = uuid_lib.UUID(snapshot_id)
-        except ValueError:
-            raise HTTPException(status_code=400, detail="Invalid snapshot ID format")
-        snap = session.query(TournamentSnapshot).filter(
-            TournamentSnapshot.id == parsed_id
-        ).first()
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail="Invalid snapshot ID format") from exc
+        snap = session.query(TournamentSnapshot).filter(TournamentSnapshot.id == parsed_id).first()
         if not snap:
             raise HTTPException(status_code=404, detail="Snapshot not found")
         return to_response(snap)

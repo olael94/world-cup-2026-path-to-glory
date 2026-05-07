@@ -86,6 +86,8 @@ export function Tutorial({ forceOpen = false, onClose }) {
     const [tooltip, setTooltip] = useState({ top: 0, left: 0, place: "center" });
     // Ref used to cancel in-flight requestAnimationFrame calls when scroll/resize fires rapidly.
     const rafRef = useRef(null);
+    // Ref to measure so the scrollend callback can call it without a before-declaration error.
+    const measureRef = useRef(null);
 
     const current = STEPS[step];
     const isLast = step === STEPS.length - 1;
@@ -150,7 +152,7 @@ export function Tutorial({ forceOpen = false, onClose }) {
                     if (done) return;
                     done = true;
                     window.removeEventListener("scrollend", finish);
-                    measure();
+                    measureRef.current?.();
                 };
                 window.addEventListener("scrollend", finish, { once: true });
                 setTimeout(finish, 600); // fallback for browsers without scrollend
@@ -175,6 +177,11 @@ export function Tutorial({ forceOpen = false, onClose }) {
 
         setTooltip({ top, left, place: "near" });
     }, [current]);
+
+    // Keep the ref pointing at the latest measure so scrollend can call it safely.
+    useEffect(() => {
+        measureRef.current = measure;
+    }, [measure]);
 
     useEffect(() => {
         if (!active) return;

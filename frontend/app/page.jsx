@@ -4,7 +4,16 @@
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { motion } from "framer-motion";
-import { Activity, ChevronDown, ChevronRight, ClipboardList, Eye, SlidersHorizontal, Trophy, Zap } from "lucide-react";
+import {
+    Activity,
+    ChevronDown,
+    ChevronRight,
+    ClipboardList,
+    Eye,
+    SlidersHorizontal,
+    Trophy,
+    Zap,
+} from "lucide-react";
 import { GroupBoard } from "../components/GroupBoard";
 import { RoundOf32, WildcardTable } from "../components/Bracket";
 import { MatchScores } from "../components/MatchScores";
@@ -276,14 +285,13 @@ export default function Home() {
                         <span className="section-kicker"> 01 Group stage</span>
                         <h2 id="group-stage-heading">Shape the tournament before kickoff</h2>
                         <p>
-                            Set the stage. Rank each group your way, set the scores you want and
-                            let AI handle the rest, then calculate with real team intelligence to
-                            see who truly earns a path to glory this World Cup.
+                            Set the stage. Rank each group your way, set the scores you want and let
+                            AI handle the rest, then calculate with real team intelligence to see
+                            who truly earns a path to glory this World Cup.
                         </p>
                     </div>
                     <AiScoreboard />
                 </motion.section>
-
             </header>
 
             {error ? (
@@ -354,7 +362,8 @@ export default function Home() {
                             <Zap size={12} /> Momentum gained — team performed better than expected
                         </span>
                         <span className="momentum-legend-item is-negative">
-                            <Zap size={12} /> Momentum lost — team underperformed against expectations
+                            <Zap size={12} /> Momentum lost — team underperformed against
+                            expectations
                         </span>
                     </div>
                 </div>
@@ -386,12 +395,17 @@ export default function Home() {
                     onClick={() => setShowMatchScores((v) => !v)}
                     aria-expanded={showMatchScores}
                 >
-                    {showMatchScores
-                        ? <ChevronDown size={15} className="scores-toggle-icon" />
-                        : <ChevronRight size={15} className="scores-toggle-icon" />}
+                    {showMatchScores ? (
+                        <ChevronDown size={15} className="scores-toggle-icon" />
+                    ) : (
+                        <ChevronRight size={15} className="scores-toggle-icon" />
+                    )}
                     <div>
                         <p className="scores-toggle-title">Fine-tune individual match scores</p>
-                        <p className="scores-toggle-sub">Optional — enter specific goals for any match. The simulator fills the rest.</p>
+                        <p className="scores-toggle-sub">
+                            Optional — enter specific goals for any match. The simulator fills the
+                            rest.
+                        </p>
                     </div>
                 </button>
                 {showMatchScores && (
@@ -448,7 +462,6 @@ export default function Home() {
                     )}
                 />
             ) : null}
-
 
             {/* Fixed status badge — shows "Calculating" while the simulation is running,
                 the snapshot time once it finishes, or "Ready" before first run. */}
