@@ -9,4 +9,5 @@ __pycache__/
 *.log
 **/data/team-intelligence-cache.json
 .env
+.env.local
 .idea/

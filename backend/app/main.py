@@ -28,6 +28,9 @@ logger = logging.getLogger(__name__)
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://path:glory@localhost:5432/path_to_glory")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+ALLOWED_ORIGINS = os.getenv(
+    "ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000"
+).split(",")
 
 # Shared list of teams used by all incoming requests.
 # Starts with the base team data, then gets replaced once the AI data is ready.
@@ -63,7 +66,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Path to Glory API", version="1.0.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
