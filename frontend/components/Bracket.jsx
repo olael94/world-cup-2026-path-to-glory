@@ -16,6 +16,22 @@ import {
 
 // ─── Wildcard Table ───────────────────────────────────────────────────────────
 
+// Renders a single stat cell in the wildcard table with optional bold styling.
+function StatCell({ value, strong = false }) {
+    return (
+        <span
+            className={`text-center tabular-nums ${strong ? "font-black text-white" : "text-white/62"}`}
+        >
+            {value}
+        </span>
+    );
+}
+
+// Formats a goal difference number with a leading + for positive values.
+function signed(value) {
+    return value > 0 ? `+${value}` : value;
+}
+
 export function WildcardTable({ rows }) {
     const columns = ["P", "W", "D", "L", "Pts", "GF", "GA", "GD", "FP"];
 
@@ -92,24 +108,14 @@ export function WildcardTable({ rows }) {
     );
 }
 
-function StatCell({ value, strong = false }) {
-    return (
-        <span
-            className={`text-center tabular-nums ${strong ? "font-black text-white" : "text-white/62"}`}
-        >
-            {value}
-        </span>
-    );
-}
-
-function signed(value) {
-    return value > 0 ? `+${value}` : value;
-}
-
 // ─── Bracket ─────────────────────────────────────────────────────────────────
 
+// Elo K-factor used for knockout matches — lower than the group stage (36)
+// because a single knockout result should move ratings less dramatically.
 const K_KNOCKOUT = 20;
 
+// One color per fixture group in a round. Cycles if there are more groups than colors.
+// Used to visually connect fixtures that feed into the same next-round match.
 const PATH_COLORS_RGB = [
     "113, 229, 183", // mint
     "255, 177, 64", // amber
@@ -117,11 +123,15 @@ const PATH_COLORS_RGB = [
     "255, 100, 160", // pink
 ];
 
+// Standard Elo win probability formula. Returns a number between 0 and 1.
+// A result of 0.75 means team A has a 75% chance of beating team B.
 function eloWinProbability(eloA, eloB) {
     return 1.0 / (1.0 + Math.pow(10, -(eloA - eloB) / 400));
 }
 
 export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, eloByTeam = {} }) {
+    // Add a stable displayId to each fixture so we can key picks and refs by it,
+    // since the backend matchNo alone isn't guaranteed to be sequential from 1.
     const roundOf32 = useMemo(
         () =>
             fixtures.map((fixture, index) => ({
@@ -133,13 +143,22 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
         [fixtures]
     );
 
+    // User's bracket picks: { [displayId]: teamName }
     const [picks, setPicks] = useState({});
+    // Tracks Elo momentum earned by each team as the user picks winners.
+    // Also stores hidden "_shift_<displayId>" entries to allow undoing a pick's momentum.
     const [cumulativeMomentum, setCumulativeMomentum] = useState({});
+    // Ref to the bracket container for measuring connector line positions.
     const bracketRef = useRef(null);
+    // Ref map from displayId → DOM element, used to measure each fixture's position for connectors.
     const fixtureRefs = useRef(new Map());
     const [connectorPaths, setConnectorPaths] = useState([]);
+    // Refs to each round column on mobile, used for auto-scrolling to the next round.
     const mobileRoundRefs = useRef([]);
 
+    // Clear all picks when the fixture list changes (new simulation result loaded).
+    // The eslint disable is needed because React's rules-of-hooks lint rule flags
+    // setState calls inside useEffect, but this is intentional and safe here.
     /* eslint-disable react-hooks/set-state-in-effect */
     useEffect(() => {
         setPicks({});
@@ -147,7 +166,9 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
     }, [roundOf32]);
     /* eslint-enable react-hooks/set-state-in-effect */
 
+    // Rebuild the full bracket structure (rounds and which teams advance) whenever picks change.
     const bracketRounds = useMemo(() => buildBracketRounds(roundOf32, picks), [roundOf32, picks]);
+    // Count how many fixtures are locked by real match data (shown in the subtitle).
     const lockedCount = useMemo(
         () =>
             bracketRounds.flatMap((round) => round.fixtures).filter((f) => isLockedFixture(f, mode))
@@ -155,6 +176,8 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
         [bracketRounds, mode]
     );
 
+    // Handles picking or deselecting a winner for a fixture.
+    // Clicking the already-picked team deselects it; clicking the other team swaps the pick.
     function selectWinner(fixture, teamName) {
         if (isLockedFixture(fixture, mode) || !canPickTeam(fixture, teamName)) return;
 
@@ -162,6 +185,8 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
 
         setPicks((current) => {
             const next = { ...current };
+            // Find all fixtures downstream that depend on this pick and clear them too,
+            // so the bracket doesn't show an impossible path after a pick changes.
             const affected = descendantFixtureIds(bracketRounds, fixture.displayId);
             if (isDeselecting) {
                 delete next[fixture.displayId];
@@ -175,10 +200,14 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
         setCumulativeMomentum((prev) => {
             const next = { ...prev };
             if (isDeselecting) {
+                // Undo: subtract the momentum shift we stored when this pick was made.
+                // The "_shift_" key is a hidden entry used only for this reversal.
                 const shift = prev[`_shift_${fixture.displayId}`] ?? 0;
                 next[teamName] = parseFloat(((prev[teamName] ?? 0) - shift).toFixed(1));
                 delete next[`_shift_${fixture.displayId}`];
             } else {
+                // Calculate how much momentum the winner earns for beating this opponent.
+                // An upset (low Elo beats high Elo) gives more momentum than an expected win.
                 const loser = teamName === fixture.home ? fixture.away : fixture.home;
                 const winnerElo = eloByTeam[teamName] ?? 1500;
                 const loserElo = eloByTeam[loser] ?? 1500;
@@ -186,11 +215,15 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
                 const shift = parseFloat((K_KNOCKOUT * (1.0 - expected)).toFixed(1));
                 const base = prev[teamName] ?? momentumByTeam[teamName] ?? 0;
                 next[teamName] = parseFloat((base + shift).toFixed(1));
+                // Store the shift so we can reverse it if the user deselects this pick later.
                 next[`_shift_${fixture.displayId}`] = shift;
             }
             return next;
         });
 
+        // On mobile, automatically scroll to the next round column once all fixtures
+        // in the current group are picked. Uses requestAnimationFrame so the DOM has
+        // time to update before we measure scroll position.
         if (!isDeselecting && typeof window !== "undefined" && window.innerWidth < 1280) {
             const currentRoundIndex = bracketRounds.findIndex((r) =>
                 r.fixtures.some((f) => f.displayId === fixture.displayId)
@@ -199,6 +232,7 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
             const nextRoundEl = mobileRoundRefs.current[currentRoundIndex + 1];
 
             if (nextRoundEl && currentRound) {
+                // Round 1 has groups of 4 fixtures feeding one R16 slot; later rounds use groups of 2.
                 const groupSize = currentRoundIndex === 0 ? 4 : 2;
                 const fixtureIndex = currentRound.fixtures.findIndex(
                     (f) => f.displayId === fixture.displayId
@@ -222,17 +256,22 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
         }
     }
 
+    // Handles drag-and-drop picks on the bracket.
+    // A team can be dropped onto its own fixture (direct pick) or onto a later
+    // fixture that lists the source fixture as a valid feeder (advance pick).
     function onFixtureDrop(fixture, event) {
         event.preventDefault();
         const payload = readDragPayload(event);
         if (!payload || isLockedFixture(fixture, mode)) return;
 
         if (payload.fixtureId === fixture.displayId) {
+            // Dropped directly onto the fixture the team belongs to — treat as a click.
             selectWinner(fixture, payload.teamName);
             return;
         }
 
         if (fixture.sourceIds?.includes(payload.fixtureId)) {
+            // Dropped onto a later round — find the original fixture and pick the winner there.
             const source = bracketRounds
                 .flatMap((r) => r.fixtures)
                 .find((f) => f.displayId === payload.fixtureId);
@@ -240,11 +279,18 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
         }
     }
 
+    // useLayoutEffect runs after the DOM updates but before the browser paints,
+    // which means we can measure element positions without a visible flicker.
+    // Regular useEffect would cause connector lines to briefly appear in the wrong place.
     useLayoutEffect(() => {
+        // Reads the screen position of every fixture card and calculates the SVG
+        // path that draws a curved connector line from one fixture to the next round.
         function measureConnectors() {
             const bracketEl = bracketRef.current;
             if (!bracketEl) return;
 
+            // All positions are relative to the bracket container, not the page,
+            // so the SVG paths stay correct even if the page is scrolled.
             const bracketBox = bracketEl.getBoundingClientRect();
             const paths = [];
 
@@ -252,6 +298,7 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
                 const nextRound = bracketRounds[roundIndex + 1];
                 round.fixtures.forEach((fixture, fixtureIndex) => {
                     const sourceEl = fixtureRefs.current.get(fixture.displayId);
+                    // Every pair of fixtures in round N feeds the same fixture in round N+1.
                     const targetFixture = nextRound.fixtures[Math.floor(fixtureIndex / 2)];
                     const targetEl = targetFixture
                         ? fixtureRefs.current.get(targetFixture.displayId)
@@ -275,6 +322,8 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
             setConnectorPaths(paths);
         }
 
+        // Measure once immediately after render, then again if the bracket resizes
+        // (e.g. window resize, panel collapse) or the window size changes.
         const frame = requestAnimationFrame(measureConnectors);
         const observer = new ResizeObserver(measureConnectors);
         if (bracketRef.current) observer.observe(bracketRef.current);
@@ -287,6 +336,9 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
         };
     }, [bracketRounds]);
 
+    // Merge group-stage momentum (from the simulation) with bracket-stage momentum (from picks).
+    // The bracket picks override group-stage values for any team the user has advanced.
+    // The filter removes the hidden "_shift_" tracking entries before passing to the UI.
     const displayMomentum = useMemo(
         () => ({
             ...momentumByTeam,
@@ -325,10 +377,15 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
                 </svg>
 
                 {bracketRounds.map((round, roundIndex) => {
+                    // roundSpan = how many grid rows this round's fixtures span.
+                    // Round 1 fixtures span 1 row, round 2 span 2, round 3 span 4, etc.
                     const roundSpan = 2 ** roundIndex;
+                    // Round 1 (R32) groups 4 fixtures per bracket section; all later rounds group 2.
                     const groupSize = roundIndex === 0 ? 4 : 2;
 
-                    // For each group in this round, find the winner color if any pick exists
+                    // For each fixture, determine if any team in its group has been picked.
+                    // If so, return that team's group color style so all fixtures in the group
+                    // glow with the same color — visually linking them as a path.
                     const groupGlowStyles = round.fixtures.map((_, i) => {
                         const gs = Math.floor(i / groupSize) * groupSize;
                         const group = round.fixtures.slice(gs, gs + groupSize);
@@ -339,6 +396,8 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
                         return team ? groupStyle(team.group) : null;
                     });
 
+                    // Count fixtures in this round that are part of an active path
+                    // but haven't been picked yet — shown as the "N picks to advance" badge.
                     const pendingCount = round.fixtures.filter((f, i) => {
                         return groupGlowStyles[i] && !(f.winner || picks[f.displayId]);
                     }).length;
@@ -371,6 +430,9 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
                                             else fixtureRefs.current.delete(fixture.displayId);
                                         }}
                                         style={{
+                                            // --fixture-start: which grid row this fixture starts on.
+                                            // The Math.floor offset adds one extra row for every 4 fixture-rows
+                                            // to account for the visual spacer rows between groups in the CSS grid.
                                             "--fixture-start":
                                                 fixtureIndex * roundSpan +
                                                 1 +
@@ -404,23 +466,30 @@ export function RoundOf32({ fixtures, mode = "simulation", momentumByTeam = {}, 
 
 // ─── Fixture card & team row ──────────────────────────────────────────────────
 
+// Renders a single match card in the bracket with two team rows.
+// fixture.winner = set by real data; userPick = set by the user clicking.
 function FixtureCard({
     fixture,
     userPick,
-    pathGroupIndex,
+    pathGroupIndex, // null if not part of any active path, otherwise the group index (0-3)
     isLocked,
     onDrop,
     onPick,
     momentumByTeam = {},
 }) {
+    // Real data winner takes priority over user pick.
     const winner = fixture.winner || userPick;
     const winnerTeam = teamByName[winner];
+    // A fixture is undetermined when neither slot has been filled yet (both are still "TBD").
     const isUndetermined = !isConcreteTeam(fixture.home) && !isConcreteTeam(fixture.away);
     const isInPath = pathGroupIndex != null;
+    // Pick a color from PATH_COLORS_RGB based on the group index, cycling if needed.
     const pathRgb = isInPath ? PATH_COLORS_RGB[pathGroupIndex % PATH_COLORS_RGB.length] : null;
 
     return (
         <div
+            // preventDefault on dragOver is required to allow the onDrop event to fire.
+            // Without it, the browser treats the target as non-droppable and cancels the drop.
             onDragOver={(event) => {
                 if (!isLocked) event.preventDefault();
             }}
@@ -465,7 +534,9 @@ function FixtureCard({
     );
 }
 
+// Renders one team row inside a fixture card — a button that doubles as a drag source.
 function TeamPickRow({ fixtureId, name, isWinner, isLocked, onPick, momentum }) {
+    // A team is only pickable if it's a real team (not "TBD") and the fixture isn't locked.
     const pickable = isConcreteTeam(name) && !isLocked;
     const team = teamByName[name];
     const hasMomentum = momentum != null && momentum !== 0;
@@ -477,6 +548,8 @@ function TeamPickRow({ fixtureId, name, isWinner, isLocked, onPick, momentum }) 
             disabled={!pickable}
             onClick={() => onPick(name)}
             onDragStart={(event) => {
+                // Two data formats: application/json for our own drop handler (structured data),
+                // text/plain as a fallback for any other drop target that only reads plain text.
                 event.dataTransfer.setData(
                     "application/json",
                     JSON.stringify({ fixtureId, teamName: name })

@@ -4,6 +4,9 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronRight, ChevronLeft, Trophy } from "lucide-react";
 
+// Each step targets a CSS selector on the page to spotlight.
+// target: null means the tooltip is centered with no highlight (used for the welcome screen).
+// padding: controls how much space is added around the highlighted element.
 const STEPS = [
     {
         target: null,
@@ -60,16 +63,23 @@ const STEPS = [
     },
 ];
 
+// localStorage key used to remember that the user has already seen the tutorial.
 const STORAGE_KEY = "ptg_tutorial_done";
+// Fixed dimensions used to calculate where to position the tooltip without it going off-screen.
 const TOOLTIP_W = 340;
 const TOOLTIP_H = 200;
 
+// Step-by-step spotlight tutorial that highlights elements on the page.
+// Shows automatically on first visit. Can be reopened via forceOpen (from the Guide button).
 export function Tutorial({ forceOpen = false, onClose }) {
     const [mounted, setMounted] = useState(false);
     const [active, setActive] = useState(false);
     const [step, setStep] = useState(0);
+    // Bounding box of the currently highlighted element (x, y, w, h).
     const [spotlight, setSpotlight] = useState(null);
+    // Position of the tooltip card. place: "center" = centered on screen, "near" = next to the element.
     const [tooltip, setTooltip] = useState({ top: 0, left: 0, place: "center" });
+    // Ref used to cancel in-flight requestAnimationFrame calls when scroll/resize fires rapidly.
     const rafRef = useRef(null);
 
     const current = STEPS[step];
@@ -77,6 +87,9 @@ export function Tutorial({ forceOpen = false, onClose }) {
     const isFirst = step === 0;
 
     /* eslint-disable react-hooks/set-state-in-effect */
+    // On first mount: mark as mounted (needed for SSR safety) and auto-start
+    // the tutorial if the user hasn't seen it before. The try/catch handles
+    // browsers where localStorage is blocked (private mode, strict settings).
     useEffect(() => {
         setMounted(true);
         try {
@@ -84,6 +97,7 @@ export function Tutorial({ forceOpen = false, onClose }) {
         } catch {}
     }, []);
 
+    // When the Guide button is clicked, reset to step 0 and reopen.
     useEffect(() => {
         if (forceOpen) {
             setStep(0);
@@ -92,8 +106,11 @@ export function Tutorial({ forceOpen = false, onClose }) {
     }, [forceOpen]);
     /* eslint-enable react-hooks/set-state-in-effect */
 
+    // Measures the target element's position and calculates where to place the
+    // spotlight cutout and tooltip card. Called on every step change, scroll, and resize.
     const measure = useCallback(() => {
         if (!current.target) {
+            // No target for this step — center the tooltip and hide the spotlight.
             setSpotlight(null);
             setTooltip({ place: "center" });
             return;
@@ -105,6 +122,7 @@ export function Tutorial({ forceOpen = false, onClose }) {
         const vw = window.innerWidth;
         const vh = window.innerHeight;
 
+        // Spotlight box = element bounds expanded by the padding on all sides.
         setSpotlight({
             x: r.left - pad,
             y: r.top - pad,
@@ -112,13 +130,16 @@ export function Tutorial({ forceOpen = false, onClose }) {
             h: r.height + pad * 2,
         });
 
+        // If the target element is near the top or bottom edge, scroll it into the center.
         const midY = r.top + r.height / 2;
         if (r.top < 80 || r.bottom > vh - 80) {
             window.scrollTo({ top: window.scrollY + midY - vh / 2, behavior: "smooth" });
         }
 
+        // Prefer placing the tooltip below the element. Fall back to above if there's more room.
         const spaceBelow = vh - (r.bottom + pad) - 16;
         const spaceAbove = r.top - pad - 16;
+        // Center the tooltip horizontally on the element, clamped to stay within the viewport.
         const left = Math.max(
             16,
             Math.min(r.left + r.width / 2 - TOOLTIP_W / 2, vw - TOOLTIP_W - 16)
@@ -133,7 +154,11 @@ export function Tutorial({ forceOpen = false, onClose }) {
 
     useEffect(() => {
         if (!active) return;
+        // Small delay before measuring so the page has time to scroll or render
+        // before we read the target element's position.
         const t = setTimeout(measure, 100);
+        // On scroll/resize, cancel any pending frame and schedule a fresh measurement.
+        // This prevents the spotlight from lagging behind on fast scrolls.
         const onScroll = () => {
             cancelAnimationFrame(rafRef.current);
             rafRef.current = requestAnimationFrame(measure);
@@ -147,6 +172,8 @@ export function Tutorial({ forceOpen = false, onClose }) {
         };
     }, [active, step, measure]);
 
+    // Closes the tutorial and marks it as done in localStorage so it
+    // doesn't auto-open again on the next visit.
     function dismiss() {
         setActive(false);
         try {
@@ -171,7 +198,13 @@ export function Tutorial({ forceOpen = false, onClose }) {
 
     return (
         <div className="pointer-events-none fixed inset-0 z-[9000]">
-            {/* Dark overlay with spotlight cutout */}
+            {/*
+             * The dark overlay is an SVG with an SVG mask applied.
+             * The mask is white everywhere (opaque) except for the spotlight area,
+             * which is black (transparent). This punches a clear hole through the
+             * dark overlay so the highlighted element shows through.
+             * Clicking anywhere on the overlay advances to the next step.
+             */}
             <svg className="pointer-events-auto fixed inset-0 h-screen w-screen" onClick={next}>
                 <defs>
                     <mask id="ptg-mask">
@@ -232,9 +265,12 @@ export function Tutorial({ forceOpen = false, onClose }) {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
+                // Prevent clicks inside the tooltip from bubbling up to the SVG overlay,
+                // which would skip to the next step unintentionally.
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* Progress bar */}
+                {/* Progress bar — completed steps are wider (flex: 2) and mint-colored,
+                    upcoming steps are narrower (flex: 1) and dim. */}
                 <div className="mb-4 flex gap-1.5">
                     {STEPS.map((_, i) => (
                         <div

@@ -1,9 +1,16 @@
+"""
+All the static data the AI intelligence system needs to do its job.
+
+Stored here instead of in intelligence.py so that adding new sources,
+updating coach names, or adjusting the list of banned phrases doesn't
+require touching any actual logic code.
+"""
+
 from __future__ import annotations
 
-# Static configuration data for the intelligence layer.
-# Kept separate from intelligence.py so the logic file stays readable.
-
 # ── Trusted news sources ──────────────────────────────────────────────────────
+# All source names are converted to lowercase once when the app starts,
+# so checking whether a source is trusted doesn't have to worry about capitalization.
 
 TRUSTED_SOURCES = {
     s.lower()
@@ -358,6 +365,7 @@ TEAM_ALIASES: dict[str, set[str]] = {
 
 # ── Retired players ───────────────────────────────────────────────────────────
 # Players who retired before 2025 — should never appear in 2026 squad news.
+# All names stored in lowercase so they match correctly when compared against what the AI returns.
 
 RETIRED_PLAYERS = {
     # Czech Republic
@@ -437,6 +445,7 @@ RETIRED_PLAYERS = {
 
 # ── Boilerplate headline phrases ──────────────────────────────────────────────
 # Generic phrases that indicate a hallucinated or non-specific headline.
+# Any headline that contains one of these phrases anywhere in the text gets dropped — not just exact matches.
 
 BOILERPLATE_PHRASES = {
     "squad selection process underway",

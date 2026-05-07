@@ -3,15 +3,17 @@
 import { motion } from "framer-motion";
 import { Activity, CheckCircle2, Info, RotateCcw, Save } from "lucide-react";
 
+// The top control bar — lets the user switch data mode, adjust discipline,
+// run the simulation, reset, and open the tutorial guide.
 export function ControlDock({
-    dataMode,
-    onDataMode,
-    discipline,
-    onDiscipline,
-    onCalculate,
-    onReset,
-    snapshot,
-    onHelp,
+    dataMode, // "simulation" | "real"
+    onDataMode, // called when the user switches mode
+    discipline, // current fair-play slider value (0–100)
+    onDiscipline, // called with the new slider value on change
+    onCalculate, // called when the user clicks Calculate
+    onReset, // called when the user clicks Reset
+    snapshot, // the current simulation result (null if none yet)
+    onHelp, // called when the user clicks the Guide button
 }) {
     return (
         <div className="control-dock">
@@ -31,6 +33,12 @@ export function ControlDock({
                                 className={`control-mode-button ${dataMode === mode ? "is-active" : ""}`}
                                 onClick={() => onDataMode(mode)}
                             >
+                                {/*
+                                 * The active pill is rendered inside whichever button is selected.
+                                 * Framer Motion's layoutId makes it animate smoothly between buttons
+                                 * when the mode switches — it physically slides across instead of
+                                 * disappearing and reappearing.
+                                 */}
                                 {dataMode === mode ? (
                                     <motion.span
                                         className="control-mode-active"
@@ -77,6 +85,8 @@ export function ControlDock({
                     >
                         <RotateCcw size={16} /> Reset
                     </button>
+                    {/* Shows "Saved" once the backend returns a snapshotId,
+                        otherwise shows "Draft" to indicate unsaved state. */}
                     <div className="control-status" data-tutorial="draft">
                         {snapshot?.snapshotId ? <CheckCircle2 size={16} /> : <Save size={16} />}
                         {snapshot?.snapshotId ? "Saved" : "Draft"}

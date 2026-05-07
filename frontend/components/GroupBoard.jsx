@@ -4,9 +4,17 @@ import { GripVertical } from "lucide-react";
 import { TeamCard } from "./TeamCard";
 import { groupStyle } from "../lib/seedData";
 
+// Displays one group's teams as a ranked, draggable list before simulation,
+// and as a sorted standings table after Calculate is pressed.
 export function GroupBoard({ order, result, onDropTeam, onIntelClick }) {
+    // Build a quick lookup of momentum shifts so each TeamCard can show its arrow.
     const momentum = new Map(result?.standings.map((row) => [row.teamId, row.momentumShift]) ?? []);
+    // Index the current team objects by ID so we can attach full team data to simulation results.
     const teamById = new Map(order.slots.map((slot) => [slot.team.id, slot.team]));
+
+    // After simulation: show teams in the order the backend ranked them (sorted by points etc.).
+    // Before simulation: show teams in the user's current drag order.
+    // The fallback team object handles any team the backend returned that isn't in seedData.
     const displaySlots = result?.standings?.length
         ? result.standings.map((row) => ({
               position: row.position,
@@ -21,6 +29,7 @@ export function GroupBoard({ order, result, onDropTeam, onIntelClick }) {
               },
           }))
         : order.slots;
+    // Once calculated, dragging is disabled and the board switches to read-only standings view.
     const calculated = Boolean(result?.standings?.length);
 
     return (
@@ -42,11 +51,14 @@ export function GroupBoard({ order, result, onDropTeam, onIntelClick }) {
                 {displaySlots.map((slot, index) => (
                     <div
                         key={slot.team.id}
+                        // preventDefault on dragOver is required to allow drops.
+                        // Disabled after calculation so the standings can't be manually reordered.
                         onDragOver={(event) => {
                             if (!calculated) event.preventDefault();
                         }}
                         onDrop={(event) => {
                             if (!calculated)
+                                // The drag payload is the source slot's index (set in eventData below).
                                 onDropTeam(
                                     order.group,
                                     Number(event.dataTransfer.getData("text/plain")),
@@ -71,6 +83,8 @@ export function GroupBoard({ order, result, onDropTeam, onIntelClick }) {
                     </div>
                 ))}
             </div>
+            {/* Show a compact scoreline summary after simulation. Capped at 6 matches
+                (a full group has 6) to avoid overflow if the backend returns extras. */}
             {result?.matches?.length ? (
                 <div className="mt-3 grid grid-cols-2 gap-1 text-xs text-white/60">
                     {result.matches.slice(0, 6).map((match) => (
@@ -88,10 +102,13 @@ export function GroupBoard({ order, result, onDropTeam, onIntelClick }) {
     );
 }
 
+// Returns a drag start handler that stores the slot's index as the drag payload.
+// The drop handler on each slot reads this index to know which team was dragged.
 function eventData(index) {
     return (event) => event.dataTransfer.setData("text/plain", String(index));
 }
 
+// Returns the ordinal suffix for a position number (1st, 2nd, 3rd, 4th...).
 function suffix(position) {
     if (position === 1) return "st";
     if (position === 2) return "nd";

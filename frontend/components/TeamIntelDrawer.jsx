@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { FlagMark } from "./CountryLabel";
 import { groupStyle } from "../lib/seedData";
 
+// Maps each news item relevance tag from the backend to a display label and color.
+// The keys match the relevance values the AI is instructed to use in intelligence.py.
 const RELEVANCE = {
     injury: { label: "Injury", color: "text-coral" },
     form: { label: "Form", color: "text-mint" },
@@ -15,11 +17,18 @@ const RELEVANCE = {
     availability: { label: "Availability", color: "text-purple-400" },
 };
 
+// Slide-in panel showing AI intelligence for a selected team.
+// Slides up from the bottom on mobile, in from the right on desktop.
+// team=null means the drawer is closed.
 export function TeamIntelDrawer({ team, onClose }) {
+    // mounted guards against rendering the portal during server-side rendering,
+    // since createPortal and document.body don't exist on the server.
     const [mounted, setMounted] = useState(false);
     const [isMobile, setIsMobile] = useState(true);
 
     /* eslint-disable react-hooks/set-state-in-effect */
+    // On mount: check screen size and listen for changes so the animation
+    // direction stays correct if the user resizes the window while the drawer is open.
     useEffect(() => {
         setMounted(true);
         const mq = window.matchMedia("(min-width: 768px)");
@@ -30,6 +39,8 @@ export function TeamIntelDrawer({ team, onClose }) {
     }, []);
     /* eslint-enable react-hooks/set-state-in-effect */
 
+    // Lock page scroll while the drawer is open so the user can't scroll the
+    // background. Resets automatically when team is cleared or the component unmounts.
     useEffect(() => {
         if (!team) return;
         document.body.style.overflow = "hidden";
@@ -38,14 +49,19 @@ export function TeamIntelDrawer({ team, onClose }) {
         };
     }, [team]);
 
+    // Don't render anything until the component has mounted in the browser.
     if (!mounted) return null;
 
+    // Switch slide direction based on screen size: up on mobile, right on desktop.
     const panelVariants = {
         hidden: isMobile ? { y: "100%" } : { x: "100%" },
         visible: isMobile ? { y: 0 } : { x: 0 },
         exit: isMobile ? { y: "100%" } : { x: "100%" },
     };
 
+    // createPortal renders the drawer directly into document.body instead of
+    // inside the normal React tree — this ensures it sits on top of everything
+    // regardless of where TeamIntelDrawer is placed in the component hierarchy.
     return createPortal(
         <AnimatePresence>
             {team && (
@@ -70,10 +86,14 @@ export function TeamIntelDrawer({ team, onClose }) {
                         animate="visible"
                         exit="exit"
                         transition={{ type: "spring", stiffness: 380, damping: 38 }}
+                        // On mobile, the drawer can be dragged down to dismiss it.
+                        // dragConstraints prevent dragging upward past its resting position.
+                        // dragElastic adds a rubber-band feel when dragging past the constraint.
                         drag={isMobile ? "y" : false}
                         dragConstraints={{ top: 0 }}
                         dragElastic={{ top: 0, bottom: 0.4 }}
                         onDragEnd={(_, info) => {
+                            // Close if the user dragged far enough down or flicked fast enough.
                             if (info.offset.y > 80 || info.velocity.y > 500) onClose();
                         }}
                     >
@@ -241,6 +261,7 @@ export function TeamIntelDrawer({ team, onClose }) {
                                 </div>
                             )}
 
+                            {/* Extra bottom padding on mobile so content isn't hidden behind the home bar. */}
                             <div className="h-4 md:hidden" />
                         </div>
                     </motion.aside>
@@ -251,7 +272,9 @@ export function TeamIntelDrawer({ team, onClose }) {
     );
 }
 
+// Renders a single news item as either a clickable link (if a URL exists) or a plain card.
 function NewsItemCard({ item }) {
+    // Fall back to showing the raw relevance string if it's not in our RELEVANCE map.
     const rel = RELEVANCE[item.relevance] ?? { label: item.relevance, color: "text-white/50" };
     const inner = (
         <>
@@ -331,10 +354,13 @@ function RangeStat({ label, value, min, max, position, note }) {
     );
 }
 
+// Converts a raw value into a 0–100 percentage position for the range track pin.
+// Clamped so values outside the min/max range don't push the pin off the track.
 function rangePercent(value, min, max) {
     return Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));
 }
 
+// Human-readable label for an Elo rating shown next to the range bar.
 function eloLabel(elo) {
     if (elo >= 1850) return "elite";
     if (elo >= 1750) return "strong";
@@ -343,6 +369,7 @@ function eloLabel(elo) {
     return "underdog";
 }
 
+// Human-readable label for a form score (0–100) shown next to the range bar.
 function formLabel(form) {
     if (form >= 80) return "excellent";
     if (form >= 65) return "strong";

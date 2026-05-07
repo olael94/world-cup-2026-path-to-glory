@@ -1,3 +1,11 @@
+"""
+Database table definitions and connection setup for saving simulation results.
+
+Every time a simulation runs, the results are saved as a TournamentSnapshot
+with the group standings and match scores stored as linked child records.
+The frontend can then load the most recent snapshot or look one up by ID.
+"""
+
 from __future__ import annotations
 
 import uuid
@@ -14,9 +22,11 @@ class Base(DeclarativeBase):
 
 class TournamentSnapshot(Base):
     __tablename__ = "tournament_snapshots"
+    # Using a random ID instead of sequential numbers (1, 2, 3...) so IDs can't be guessed by anyone calling the API.
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String, nullable=False, default="Untitled Scenario")
     created_at = Column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(UTC))
+    # When a snapshot is deleted, automatically delete all its group results and match results too.
     group_results = relationship(
         "GroupResult", back_populates="snapshot", cascade="all, delete-orphan"
     )
@@ -62,11 +72,16 @@ class MatchResult(Base):
     snapshot = relationship("TournamentSnapshot", back_populates="match_results")
 
 
+# Set once when the server starts and reused for every database call.
 _engine = None
 _SessionLocal = None
 
 
 def init_db(database_url: str) -> None:
+    """Connects to the database and creates any tables that don't exist yet.
+
+    Safe to run on a database that already has data — it won't delete or overwrite anything.
+    """
     global _engine, _SessionLocal
     _engine = create_engine(database_url)
     Base.metadata.create_all(_engine)
@@ -74,4 +89,5 @@ def init_db(database_url: str) -> None:
 
 
 def get_session() -> Session:
+    """Opens a new database connection. The caller must close it when done."""
     return _SessionLocal()

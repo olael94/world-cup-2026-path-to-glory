@@ -5,21 +5,29 @@ import { ChevronRight, GripVertical, Zap } from "lucide-react";
 import { FlagMark } from "./CountryLabel";
 import { groupStyle, groupTheme } from "../lib/seedData";
 
+// Displays a team as a draggable card with its flag, name, FIFA ranking, and momentum.
+// Used in the group boards before and after simulation.
 export function TeamCard({ team, momentum = 0, draggable, onDragStart, onBadgeClick }) {
     const inMomentum = momentum > 0;
+    // High momentum (12+) triggers a pulsing scale animation to make surging teams stand out.
     const highMomentum = momentum >= 12;
     const theme = groupTheme(team.group);
+    // Glow intensity and size both scale up with momentum, capped so they don't get too extreme.
     const glowAlpha = Math.min(0.42, 0.14 + momentum / 70);
     const glowSize = Math.min(38, 14 + momentum);
 
     return (
         <motion.div
             draggable={draggable}
+            // onDragStartCapture fires before React's synthetic onDragStart,
+            // which ensures the drag data is set before any parent handlers run.
             onDragStartCapture={onDragStart}
+            // Switch between two named animation variants based on momentum state.
             animate={inMomentum ? "powered" : "idle"}
             variants={{
                 idle: { scale: 1, boxShadow: "0 0 0 rgba(0, 0, 0, 0)" },
                 powered: {
+                    // High momentum: loop a subtle pulse. Normal momentum: just apply the glow.
                     scale: highMomentum ? [1, 1.025, 1] : 1,
                     boxShadow: `0 0 0 1px rgba(${theme.rgb}, ${glowAlpha}), 0 0 ${glowSize}px rgba(${theme.rgb}, ${glowAlpha})`,
                 },
@@ -60,7 +68,10 @@ export function TeamCard({ team, momentum = 0, draggable, onDragStart, onBadgeCl
                     className="team-flip-button"
                     aria-label={`View ${team.name} intel`}
                     onClick={(e) => {
+                        // stopPropagation prevents the click from also triggering
+                        // the drag handler on the parent motion.div.
                         e.stopPropagation();
+                        // Optional chaining (?.) means nothing happens if no handler was passed.
                         onBadgeClick?.(team);
                     }}
                 >

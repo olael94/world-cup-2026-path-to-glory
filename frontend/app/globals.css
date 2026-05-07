@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Custom fonts ────────────────────────────────────────────────────────────
+   font-display: swap means the browser shows fallback text immediately and
+   swaps in the custom font once it loads, instead of hiding text while waiting.
+──────────────────────────────────────────────────────────────────────────── */
+
 @font-face {
     font-display: swap;
     font-family: "FIFA 26";
@@ -26,7 +31,11 @@
     src: url("/fonts/FWC2026-NormalRegular.77c3c249.ttf") format("truetype");
 }
 
+/* ── Global base ─────────────────────────────────────────────────────────── */
+
 :root {
+    /* Tells the browser this is a dark-mode site so it styles scrollbars,
+       form inputs, and system UI elements to match automatically. */
     color-scheme: dark;
     scroll-behavior: smooth;
 }
@@ -59,6 +68,8 @@ input {
     font: inherit;
 }
 
+/* Apply the FWC 2026 display font to all labels, badges, and UI text
+   that should feel like official World Cup branding. Body copy stays in Inter. */
 .hero-eyebrow,
 .hero-copy,
 .hero-highlights span,
@@ -76,6 +87,8 @@ input {
 .wildcard-status {
     font-family: "FWC 2026", Inter, ui-sans-serif, system-ui, sans-serif;
 }
+
+/* ── Scroll animations ───────────────────────────────────────────────────── */
 
 @keyframes revealUp {
     from {
@@ -97,6 +110,9 @@ input {
     animation: revealUp 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
+/* When the browser supports scroll-driven animations, tie the revealUp
+   animation to each element entering the viewport instead of playing on load.
+   The @supports block means older browsers just get the default load animation. */
 @supports (animation-timeline: view()) {
     .control-dock,
     .focus-bar,
@@ -110,6 +126,8 @@ input {
     }
 }
 
+/* Accessibility: users who have "reduce motion" turned on in their OS settings
+   get instant transitions instead of animations. Required for accessibility. */
 @media (prefers-reduced-motion: reduce) {
     :root {
         scroll-behavior: auto;
@@ -125,9 +143,13 @@ input {
     }
 }
 
+/* ── Hero section ────────────────────────────────────────────────────────── */
+
 .site-hero {
     --hero-stage-height: clamp(29rem, 46vw, 35.5rem);
     gap: 3.15rem;
+    /* isolation: isolate creates a new stacking context so the hero's z-index
+       layers don't bleed into or conflict with the rest of the page. */
     isolation: isolate;
     overflow: hidden;
     padding-bottom: 1.8rem;
@@ -205,6 +227,9 @@ input {
 .hero-eyebrow {
     align-items: center;
     background: linear-gradient(90deg, #71e5b7, #ffb140, #ff4074);
+    /* Gradient text technique: clip the background to the text shape,
+       then make the text color transparent so the gradient shows through.
+       The -webkit- prefix is still needed for Safari. */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -273,6 +298,8 @@ input {
     border-color: rgba(255, 64, 116, 0.32);
     color: #ff8aa9;
 }
+
+/* ── Workflow strip (the 3-step "how it works" row) ─────────────────────── */
 
 .workflow-strip {
     display: grid;
@@ -428,6 +455,8 @@ input {
         display: none;
     }
 }
+
+/* ── Control dock (the top simulation control bar) ───────────────────────── */
 
 .control-dock {
     background:
@@ -714,6 +743,8 @@ input {
     }
 }
 
+/* ── Focus bar (the group filter / team spotlight bar) ───────────────────── */
+
 .focus-bar {
     background:
         linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
@@ -869,6 +900,8 @@ input {
     }
 }
 
+/* ── Group panels & group stage layout ───────────────────────────────────── */
+
 .group-panel {
     position: relative;
     overflow: hidden;
@@ -882,6 +915,8 @@ input {
 }
 
 .group-panel::before {
+    /* Thin colored top bar using each group's CSS variable color — gives each
+       group card a unique accent without needing separate classes per group. */
     background: linear-gradient(90deg, var(--group-color), rgba(var(--group-rgb), 0.12));
     content: "";
     display: block;
@@ -1013,6 +1048,10 @@ input {
     width: 1.95rem;
 }
 
+/* ── Team cards & ranking slots ──────────────────────────────────────────── */
+
+/* --group-color and --group-rgb are CSS variables set per team in JS.
+   They drive the color accent throughout all team card elements below. */
 .ranking-slot {
     background: rgba(255, 255, 255, 0.025);
     border-color: rgba(255, 255, 255, 0.075);
@@ -1129,6 +1168,8 @@ input {
     width: 0.72rem;
 }
 
+/* ── Match score inputs ───────────────────────────────────────────────────── */
+
 .match-fixture-row {
     background:
         linear-gradient(90deg, rgba(var(--group-rgb), 0.085), transparent 28%),
@@ -1161,6 +1202,8 @@ input {
     box-shadow: 0 0 0 2px rgba(var(--group-rgb), 0.12);
 }
 
+/* ── Wildcard qualification table ────────────────────────────────────────── */
+
 .wildcard-table-wrap {
     border-radius: 1.2rem;
 }
@@ -1183,6 +1226,7 @@ input {
     opacity: 0.62;
 }
 
+/* Amber top border marks the cutoff line between qualified and eliminated teams. */
 .wildcard-row.is-cutline {
     border-top-color: rgba(255, 207, 123, 0.32);
     border-top-width: 2px;
@@ -1257,11 +1301,17 @@ input {
     box-shadow: 0 0 18px rgba(113, 229, 183, 0.14);
 }
 
+/* ── Bracket ─────────────────────────────────────────────────────────────── */
+
 .bracket-round-stack {
     display: grid;
     gap: 0.5rem;
 }
 
+/* Mobile bracket layout (screens narrower than 1280px).
+   Each round becomes a full-width scrollable column.
+   The grid rows are: 4 fixture rows (9rem each) + 1 gap row (3rem), repeated for each group of 4.
+   The 3rem rows are visual spacers between groups of fixtures, not actual content. */
 @media (max-width: 1279px) {
     .bracket-round-stack {
         display: grid;
@@ -1278,6 +1328,8 @@ input {
         align-self: center;
     }
 
+    /* Draw a faint divider line above the first fixture in each new group of 4
+       (every 4th child) to visually separate groups within the same round column. */
     [data-round="0"] .bracket-fixture-shell:nth-child(4n + 1):not(:first-child)::before {
         content: "";
         position: absolute;
@@ -1297,6 +1349,8 @@ input {
 
 .bracket-frame {
     position: relative;
+    /* scrollbar-width and scrollbar-color work in Firefox and Chrome 121+.
+       The ::-webkit-scrollbar rules below cover older Chrome and Safari. */
     scrollbar-width: thin;
     scrollbar-color: rgba(113, 229, 183, 0.4) transparent;
 }
@@ -1343,11 +1397,14 @@ input {
     padding: 0.15rem 0.48rem;
 }
 
+/* Fixtures where neither team is known yet (both are still TBD) — shown faded with a dashed border. */
 .bracket-fixture-card.is-undetermined {
     border-style: dashed;
     opacity: 0.38;
 }
 
+/* A fixture is "in path" when it's in the same group as a match the user already picked.
+   --path-rgb is set per group in JS to give each path a unique color. */
 .bracket-fixture-card.is-in-path:not(.is-picked) {
     border-color: rgba(var(--path-rgb), 0.65);
     box-shadow:
@@ -1355,6 +1412,7 @@ input {
         0 0 0 1px rgba(var(--path-rgb), 0.32);
 }
 
+/* When a fixture is both picked AND in the current path, use the team's group color instead of the path color. */
 .bracket-fixture-card.is-picked.is-in-path {
     box-shadow:
         0 0 20px rgba(var(--group-rgb), 0.28),
@@ -1481,8 +1539,8 @@ input {
         min-height: 9rem;
     }
 
-    /* Add visual gap between each pair of R32 fixtures
-     that feed the same R16 match (every 2nd fixture) */
+    /* Add a gap below every other fixture in round 1 to visually group the pairs
+       that feed into the same round-of-16 match. */
     [data-round="0"] .bracket-fixture-shell:nth-child(2n) {
         padding-bottom: 1.75rem;
     }
@@ -1639,6 +1697,8 @@ input {
         opacity 0.4s ease;
 }
 
+/* These classes are toggled by JS to animate each scoreboard slide in and out.
+   is-enter = slide currently visible, is-exit = slide animating out upward. */
 .ai-scoreboard-inner.is-enter {
     opacity: 1;
     transform: translateY(0);

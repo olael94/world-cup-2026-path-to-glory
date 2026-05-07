@@ -1,10 +1,31 @@
-# 2026 World Cup Path to Glory
+# 2026 World Cup — Path to Glory
 
-A three-service tournament simulator for the 48-team 2026 World Cup:
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-0055FF?style=flat-square&logo=framer&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![OpenAI](https://img.shields.io/badge/GPT--4.1_mini-412991?style=flat-square&logo=openai&logoColor=white)
 
-- `frontend`: Next.js, Tailwind CSS, Framer Motion drag-and-drop tracker.
-- `backend`: Spring Boot orchestrator with JPA `TournamentSnapshot`, `GroupResult`, and `MatchResult` persistence.
-- `math-service`: FastAPI Elo/Poisson momentum engine.
+An unofficial fan-made simulator for the 48-team FIFA World Cup 2026. Drag teams into your predicted group order, enter any known scores, run the simulation, and watch the full bracket build itself — wildcards, round of 32, and beyond.
+
+Built with a **Next.js frontend** and a **FastAPI + PostgreSQL backend**. An optional AI layer uses GPT-4 to pull current team news (injuries, form, coaching changes) and blend it into the historical Elo/form baseline before every simulation.
+
+---
+
+## Stack
+
+| Layer | Tech |
+|---|---|
+| Frontend | Next.js 15, Tailwind CSS, Framer Motion |
+| Backend | FastAPI, SQLAlchemy, PostgreSQL |
+| Simulation | Elo rating system + Poisson goal model |
+| AI Intel | GPT-4.1 mini via LangChain + web search |
+| Containerisation | Docker Compose |
+
+---
 
 ## Run Locally
 
@@ -14,46 +35,97 @@ docker compose up --build
 
 Then open:
 
-- Frontend: `http://localhost:3000`
-- Spring Boot API: `http://localhost:8080`
-- FastAPI docs: `http://localhost:8000/docs`
+- **Frontend:** `http://localhost:3000`
+- **Backend API:** `http://localhost:8000`
+- **API docs:** `http://localhost:8000/docs`
 
-## Frontend Code Quality
-
-All commands run from the `frontend/` directory.
-
-### Lint
-
-Check for code issues:
+To enable AI-powered team intelligence, set your OpenAI key before starting:
 
 ```bash
-npm run lint
+export OPENAI_API_KEY=sk-...
+docker compose up --build
 ```
 
-Auto-fix everything ESLint can fix automatically:
+Without the key the app falls back to historical ratings — everything still works.
 
-```bash
-npm run lint:fix
+---
+
+## Project Structure
+
+```
+├── frontend/               # Next.js app
+│   ├── app/                # Page and global CSS
+│   ├── components/         # UI components (Bracket, GroupBoard, TeamCard…)
+│   └── lib/                # Utilities (seedData, bracket logic, API client)
+│
+└── backend/                # FastAPI app
+    └── app/
+        ├── main.py             # API routes
+        ├── simulation.py       # Elo + Poisson match engine
+        ├── intelligence.py     # AI news fetch and rating adjustment
+        ├── intel_config.py     # Trusted sources, team aliases, retired players
+        ├── database.py         # SQLAlchemy models and session setup
+        ├── response_builders.py# Formats DB snapshots for the frontend
+        ├── models.py           # Pydantic request/response models
+        └── seed_data.py        # 48-team baseline with Elo and form ratings
 ```
 
-### Prettier
+---
 
-Format all `.js`, `.jsx`, `.json`, and `.css` files:
+## How the Simulation Works
 
-```bash
-npm run format
-```
+1. **Group stage** — Every group runs a full round-robin. Match scores are predicted using each team's Elo rating, FIFA ranking, and recent form via a Poisson goal model. Manual scores entered by the user override the model for specific matches.
+2. **Elo updates** — After each match, both teams' Elo ratings update immediately, so later group matches reflect earlier results.
+3. **Standings** — Teams are sorted by the official FIFA tiebreaker order: points → goal difference → goals scored → fair play → original draw position.
+4. **Wildcards** — All 12 third-place finishers are ranked by the same tiebreaker rules. The best 8 advance to the round of 32.
+5. **Bracket** — The round of 32 follows the official FIFA 2026 fixture map. Users pick winners by clicking or dragging team names through the bracket.
 
-## Notes
+---
 
-The app seeds all 12 groups and 48 teams in `frontend/lib/seedData.js` and `backend/.../SeedData.java`. Rankings are intentionally isolated in one place so the April 2026 FIFA ranking snapshot can be replaced without touching simulation logic.
+## AI Team Intelligence
 
-Initial Elo and form are generated from historical international results with:
+When `OPENAI_API_KEY` is set, the backend runs a GPT-4 web search for current news on all 48 teams before each simulation. It looks for:
+
+- Injuries and player availability
+- Recent form from friendlies and qualifiers
+- Coaching or tactical changes
+- Squad morale and readiness
+
+The AI adjusts each team's Elo and form score based on what it finds, then caches the result for 24 hours to avoid redundant API calls. Results are shown in the Team Intel drawer (tap the arrow on any team card).
+
+---
+
+## Historical Ratings
+
+Initial Elo and form values are generated from a dataset of historical international results:
 
 ```bash
 python3 scripts/build_historical_ratings.py
 ```
 
-Historical results are a stable baseline. They should be regenerated only when the source dataset changes, new completed matches are intentionally added, or the Elo/form formula changes.
+This writes to `frontend/lib/generated/historicalRatings.json`. Regenerate only when the source dataset changes, new completed matches are added, or the Elo/form formula is updated.
 
-The backend also has a daily AI refresh layer on `GET /teams`. Set `OPENAI_API_KEY` before starting the backend to let it gather only current team news and conditions with OpenAI, cache the result for 24 hours, and blend those news signals into the historical Elo/form baseline. The AI refresh should focus on injuries, squad availability, coaching/tactical changes, morale, recent friendlies/qualifiers, and likely World Cup readiness. Without `OPENAI_API_KEY`, it safely falls back to the generated historical ratings.
+---
+
+## Code Quality
+
+All commands run from the `frontend/` directory.
+
+```bash
+npm run lint          # Check for ESLint issues
+npm run lint:fix      # Auto-fix what ESLint can
+npm run format        # Prettier format all .js, .jsx, .json, .css files
+```
+
+From the `backend/` directory:
+
+```bash
+ruff check .          # Lint
+ruff format .         # Format
+```
+
+---
+
+## Disclaimer
+
+Unofficial fan project. Not affiliated with or endorsed by FIFA.

@@ -1,5 +1,9 @@
 import historicalRatings from "./generated/historicalRatings.json";
 
+// ── Team seed data ────────────────────────────────────────────────────────────
+// Each row: [id, name, group, FIFA ranking, draw position, flag emoji, optional flag image path]
+// Draw position (1–4) is the order teams were drawn into the group at the FIFA draw ceremony.
+// Elo and form come from historicalRatings.json — the emoji flag is the fallback if no image exists.
 export const seededTeams = [
     ["mex", "Mexico", "A", 15, 1, "🇲🇽"],
     ["rsa", "South Africa", "A", 59, 2, "🇿🇦"],
@@ -57,21 +61,32 @@ export const seededTeams = [
     drawOrder: Number(drawOrder),
     flag,
     flagImage,
+    // Pull Elo and form from the generated ratings file. Fall back to a formula-based
+    // estimate if a team isn't in the file yet, and 50 form if form data is missing.
     elo: historicalRatings.teams[id]?.elo ?? fallbackElo(Number(ranking)),
     form: historicalRatings.teams[id]?.form ?? 50,
     historicalMatches: historicalRatings.teams[id]?.historicalMatches ?? 0,
 }));
 
+// ── Lookup tables ─────────────────────────────────────────────────────────────
+// Pre-built for fast access — avoids searching the array on every render.
 export const flagByTeamId = Object.fromEntries(seededTeams.map((team) => [team.id, team.flag]));
 export const flagImageByTeamId = Object.fromEntries(
     seededTeams.map((team) => [team.id, team.flagImage])
 );
+// Keyed by name because the bracket uses team names as identifiers, not IDs.
 export const teamByName = Object.fromEntries(seededTeams.map((team) => [team.name, team]));
 
+// Estimates an Elo rating from a FIFA ranking when no historical data exists.
+// Top-ranked teams (rank 1) get ~1856, teams ranked 90+ stay at the base of 1500.
 function fallbackElo(ranking) {
     return 1500 + Math.max(0, 90 - ranking) * 4;
 }
 
+// ── Group color themes ────────────────────────────────────────────────────────
+// Each group has a unique color inspired by its host city.
+// Both hex (for CSS color values) and rgb (for rgba() with opacity) are stored
+// because CSS can't convert between the two at runtime without a custom property trick.
 export const groupThemes = {
     A: { color: "#34D26F", rgb: "52, 210, 111", name: "Atlanta green" },
     B: { color: "#FFA840", rgb: "255, 168, 64", name: "Boston orange" },
@@ -87,30 +102,44 @@ export const groupThemes = {
     L: { color: "#80B0FF", rgb: "128, 176, 255", name: "Philadelphia blue" },
 };
 
+// Returns the theme for a group, falling back to mint if the group isn't found.
 export function groupTheme(group) {
     return groupThemes[group] ?? { color: "#71e5b7", rgb: "113, 229, 183", name: "Default" };
 }
 
+// Returns a React style object with the three CSS variables used throughout the UI
+// to color team cards, borders, glows, and badges for a given group.
 export function groupStyle(group) {
     const theme = groupTheme(group);
     return {
         "--group-color": theme.color,
         "--group-rgb": theme.rgb,
+        // --group-ink is the text color to use on top of the group color (black or white),
+        // calculated to ensure enough contrast for readability.
         "--group-ink": readableInk(theme.rgb),
     };
 }
 
+// Calculates whether black or white text is more readable on top of a given background color.
+// Uses the W3C relative luminance formula — the same standard used in accessibility tools.
+// Returns dark text for light backgrounds, white text for dark backgrounds.
 function readableInk(rgb) {
     const [red, green, blue] = rgb.split(",").map((part) => Number(part.trim()) / 255);
     const luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
     return luminance > 0.48 ? "#020504" : "#ffffff";
 }
 
+// Merges AI-adjusted team data from the backend over the local seed data.
+// Seed data is the base — backend fields (adjusted Elo, form, news etc.) overwrite
+// matching fields. Any team the backend doesn't return keeps its seed values unchanged.
 export function mergeTeamIntelligence(teams) {
     const byId = new Map(teams.map((team) => [team.id, team]));
     return seededTeams.map((team) => ({ ...team, ...(byId.get(team.id) ?? {}) }));
 }
 
+// Builds the initial group order used before any simulation has run.
+// Teams are sorted by their draw position (1–4) within each group.
+// Accepts an optional teams array so it can be called with AI-adjusted data after fetch.
 export function initialOrders(teams = seededTeams) {
     return "ABCDEFGHIJKL".split("").map((group) => ({
         group,
@@ -121,6 +150,11 @@ export function initialOrders(teams = seededTeams) {
     }));
 }
 
+// ── Match schedule ────────────────────────────────────────────────────────────
+// The official FIFA 2026 group-stage match order for each group.
+// Each pair is [homeId, awayId] in the order matches are played.
+// Used by MatchScores to display fixtures in the real schedule order instead of
+// generating all pairs alphabetically.
 export const groupMatchSchedule = {
     A: [
         ["mex", "rsa"],

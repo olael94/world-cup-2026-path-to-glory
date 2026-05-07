@@ -1,3 +1,5 @@
+// "use client" tells Next.js this component runs in the browser, not on the server.
+// Required here because we use useState, useEffect, and browser events.
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
@@ -16,20 +18,34 @@ import { Footer } from "../components/Footer";
 import { TeamIntelDrawer } from "../components/TeamIntelDrawer";
 
 export default function Home() {
+    // The current drag order of teams within each group.
     const [orders, setOrders] = useState(() => initialOrders());
+    // AI-adjusted team data fetched from the backend on load.
     const [baseTeams, setBaseTeams] = useState(null);
+    // Fair-play discipline slider value (0–100).
     const [discipline, setDiscipline] = useState(50);
+    // "simulation" uses the AI model; "real" uses actual match data.
     const [dataMode, setDataMode] = useState("simulation");
+    // Set of group letters the user has filtered to. null means show all groups.
     const [focusedGroups, setFocusedGroups] = useState(null);
+    // Manual scores entered by the user, stored as state so the UI re-renders.
     const [manualScores, setManualScores] = useState({});
+    // Incrementing this number forces MatchScores to remount and clear its inputs.
     const [scoreResetVersion, setScoreResetVersion] = useState(0);
+    // Ref copy of manual scores for reading the latest values without waiting for a re-render.
     const manualScoresRef = useRef({});
+    // The full simulation result returned by the backend after Calculate is pressed.
     const [snapshot, setSnapshot] = useState(null);
     const [showTutorial, setShowTutorial] = useState(false);
     const [error, setError] = useState(null);
+    // useTransition marks the simulation as non-urgent so the UI stays responsive while it runs.
     const [isPending, startTransition] = useTransition();
+    // The team whose intel drawer is currently open.
     const [selectedTeam, setSelectedTeam] = useState(null);
 
+    // Fetch AI-adjusted team data from the backend when the page first loads.
+    // The `cancelled` flag prevents updating state if the component unmounts
+    // before the fetch finishes — avoids a "can't update unmounted component" error.
     useEffect(() => {
         let cancelled = false;
         void (async () => {
@@ -49,16 +65,21 @@ export default function Home() {
         };
     }, []);
 
+    // Convert the snapshot's groups array into a Map keyed by group letter
+    // so each GroupBoard can look up its result instantly instead of searching the array.
     const resultsByGroup = useMemo(
         () => new Map(snapshot?.groups.map((group) => [group.group, group]) ?? []),
         [snapshot]
     );
+    // Only show groups the user has filtered to. If nothing is filtered, show everything.
     const visibleOrders = useMemo(
         () => (focusedGroups ? orders.filter((order) => focusedGroups.has(order.group)) : orders),
         [focusedGroups, orders]
     );
     const visibleGroupCount = focusedGroups?.size ?? orders.length;
 
+    // Default parameters let other functions call runSimulation() with overrides
+    // (e.g. passing new orders before state has updated) without repeating the logic.
     function runSimulation(
         nextOrders = orders,
         nextDiscipline = discipline,
@@ -77,6 +98,9 @@ export default function Home() {
         });
     }
 
+    // Called when the user drags a team to a new position inside a group.
+    // Rebuilds the slots array immutably and reassigns position numbers (1-based).
+    // Clears the snapshot because the new order invalidates the previous result.
     function onDropTeam(groupCode, fromIndex, toIndex) {
         const next = orders.map((group) => {
             if (group.group !== groupCode) return group;
@@ -92,6 +116,8 @@ export default function Home() {
         setSnapshot(null);
     }
 
+    // Toggles a single group in or out of the active filter.
+    // If the result would be empty or all groups selected, reset to null (show all).
     function toggleGroupFocus(groupCode) {
         setFocusedGroups((current) => {
             if (!current) return new Set([groupCode]);
@@ -107,6 +133,9 @@ export default function Home() {
         setSnapshot(null);
     }
 
+    // Updates a single score field (homeGoals or awayGoals) for a fixture.
+    // Both the ref and the state are updated: the ref gives runSimulation() the latest
+    // value immediately, while the state update triggers a re-render for the UI.
     function onScoreChange(fixture, field, rawValue) {
         const value = rawValue === "" ? "" : String(Math.max(0, Number(rawValue)));
         const current = manualScoresRef.current;
@@ -124,6 +153,9 @@ export default function Home() {
         setSnapshot(null);
     }
 
+    // Resets everything back to the initial state.
+    // Incrementing scoreResetVersion changes the key on MatchScores, which forces
+    // React to unmount and remount it — the simplest way to clear all its inputs.
     function handleReset() {
         const next = initialOrders(baseTeams ?? undefined);
         setOrders(next);
@@ -327,6 +359,7 @@ export default function Home() {
                 ))}
             </section>
 
+            {/* key={scoreResetVersion} remounts MatchScores on reset, clearing all score inputs */}
             <MatchScores
                 key={scoreResetVersion}
                 orders={visibleOrders}
@@ -340,6 +373,8 @@ export default function Home() {
             ) : null}
 
             {snapshot?.roundOf32?.length ? (
+                // Flatten all group standings into team-keyed lookup objects
+                // so the bracket can show each team's momentum and Elo at a glance.
                 <RoundOf32
                     fixtures={snapshot.roundOf32}
                     mode={dataMode}
@@ -356,6 +391,8 @@ export default function Home() {
                 />
             ) : null}
 
+            {/* Fixed status badge — shows "Calculating" while the simulation is running,
+                the snapshot time once it finishes, or "Ready" before first run. */}
             <div className="fixed bottom-4 right-4 rounded-md border border-line bg-panel/95 px-3 py-2 text-xs text-white/55 shadow-lg">
                 {isPending
                     ? "Calculating momentum..."

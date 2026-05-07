@@ -1,3 +1,10 @@
+"""
+Formats saved simulation data into the shape the frontend expects.
+
+Kept in its own file so main.py stays focused on routing, and this
+formatting logic is easier to read and update on its own.
+"""
+
 from __future__ import annotations
 
 from .database import TournamentSnapshot
@@ -12,6 +19,12 @@ from .simulation import round_of_32, wildcard_table
 
 
 def to_response(snap: TournamentSnapshot) -> SimulateResponse:
+    """Turns a saved simulation from the database into the full response the frontend needs.
+
+    Groups each team's standings and match results by group letter, then
+    figures out which third-place teams qualify and builds the round-of-32 bracket.
+    """
+    # gmap stores standings and match results per group: gmap["A"] = ([standings], [matches])
     gmap: dict[str, tuple[list, list]] = {}
     for r in sorted(snap.group_results, key=lambda x: (x.group_code, x.position)):
         st, mt = gmap.setdefault(r.group_code, ([], []))
@@ -71,6 +84,11 @@ def to_response(snap: TournamentSnapshot) -> SimulateResponse:
 
 
 def seeded_response() -> SimulateResponse:
+    """Returns the default empty bracket shown before any simulation has been run.
+
+    Teams appear in their original drawn positions with all stats set to zero,
+    so the frontend has something to display on first load.
+    """
     gmap: dict[str, list] = {}
     for t in sorted(TEAMS, key=lambda t: (t.group, t.draw_order)):
         gmap.setdefault(t.group, []).append(

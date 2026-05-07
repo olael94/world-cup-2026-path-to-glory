@@ -1,3 +1,11 @@
+"""
+The main entry point for the Path to Glory API.
+
+Sets up all the API routes, connects to the database, and loads team data
+when the server starts. AI-powered team news loads in the background so the
+server is ready to respond right away without waiting for it to finish.
+"""
+
 from __future__ import annotations
 
 import logging
@@ -21,11 +29,18 @@ logger = logging.getLogger(__name__)
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://path:glory@localhost:5432/path_to_glory")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+# Shared list of teams used by all incoming requests.
+# Starts with the base team data, then gets replaced once the AI data is ready.
 _teams_cache: list[TeamDto] = []
 _teams_lock = threading.Lock()
 
 
 def _load_teams_bg():
+    """Fetches AI-adjusted team data and replaces the base team list.
+
+    Runs in the background so the server doesn't have to wait for it on startup.
+    The base team data is already loaded before this runs, so /teams always works.
+    """
     logger.info("Loading team intelligence in background...")
     teams = current_teams(OPENAI_API_KEY)
     with _teams_lock:
@@ -36,10 +51,11 @@ def _load_teams_bg():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    """Runs once when the server starts: sets up the database and kicks off the background AI loader."""
     init_db(DATABASE_URL)
     logger.info("Database initialized")
     with _teams_lock:
-        _teams_cache.extend(TEAMS)
+        _teams_cache.extend(TEAMS)  # Load base data immediately so /teams works right away
     threading.Thread(target=_load_teams_bg, daemon=True).start()
     yield
 
@@ -66,6 +82,7 @@ def teams():
 
 @app.get("/snapshot/latest")
 def latest_snapshot():
+    """Returns the most recently saved simulation, or the default empty bracket if none exist yet."""
     session = get_session()
     try:
         snap = (
@@ -124,7 +141,7 @@ def simulate(request: SimulateRequest):
         session.refresh(snap)
         return to_response(snap)
     except Exception as e:
-        session.rollback()
+        session.rollback()  # Don't leave a partial snapshot in the DB
         logger.error(f"Simulation failed: {e}")
         raise HTTPException(status_code=500, detail=str(e)) from e
     finally:

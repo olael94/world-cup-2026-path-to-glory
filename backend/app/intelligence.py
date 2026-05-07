@@ -1,3 +1,10 @@
+"""
+This file asks an AI (GPT-4) to search the web for current news about each
+national team — injuries, form, coaching changes — and uses that to adjust
+each team's ratings before they're sent to the frontend. The results are
+saved to a local file so we don't make a new AI request on every page load.
+"""
+
 from __future__ import annotations
 
 import json
@@ -45,10 +52,12 @@ class IntelligenceCache(BaseModel):
     teams: list[TeamIntel]
 
     def is_fresh(self) -> bool:
+        """Returns True if the saved data is less than REFRESH_HOURS old."""
         age = datetime.now(UTC) - self.generated_at.replace(tzinfo=UTC)
         return age < timedelta(hours=REFRESH_HOURS)
 
     def by_team_id(self) -> dict[str, TeamIntel]:
+        """Converts the teams list into a dictionary keyed by team ID for fast lookups."""
         return {t.id: t for t in self.teams}
 
 
@@ -67,6 +76,11 @@ def _write_cache(cache: IntelligenceCache) -> None:
 
 
 def _apply(cache: IntelligenceCache | None) -> list[TeamDto]:
+    """Takes the AI's adjustments and adds them on top of each team's base ratings.
+
+    If there's no AI data yet (first run, no API key), just return the
+    original team list so the app still works.
+    """
     if cache is None:
         return list(TEAMS)
     by_id = cache.by_team_id()
@@ -100,6 +114,12 @@ def _is_trusted(source: str) -> bool:
 
 
 def _clean_intel(item: dict) -> dict:
+    """Cleans up the raw AI response before saving it.
+
+    The AI sometimes makes things up — fake injuries, retired players, generic
+    headlines. This function removes all of that so only real, valid data gets
+    stored and shown to the user.
+    """
     # Fix "N/A" strings in array fields
     for field in ("keyPlayersOut", "keyPlayersIn"):
         val = item.get(field, [])
@@ -214,7 +234,8 @@ def _clean_intel(item: dict) -> dict:
     if len(item.get("keyPlayersIn", [])) > 6:
         item["keyPlayersIn"] = item["keyPlayersIn"][:6]
 
-    # Cap adjustments to prevent model hitting absolute limits
+    # Keep the AI's rating changes within a safe range so one bad response
+    # can't wildly skew the simulation results
     item["formAdjustment"] = max(-7.0, min(7.0, float(item.get("formAdjustment", 0.0))))
     item["eloAdjustment"] = max(-35.0, min(35.0, float(item.get("eloAdjustment", 0.0))))
 
@@ -305,6 +326,11 @@ def _build_prompt() -> ChatPromptTemplate:
 
 
 def _fetch_batch(chain, teams) -> list[TeamIntel]:
+    """Sends a group of teams to the AI and returns the cleaned results.
+
+    If the AI returns bad data for one team, that team is skipped instead of
+    crashing the whole request and losing data for all other teams.
+    """
     lines = "\n".join(
         f"- {t.name} (id:{t.id}, coach:{TEAM_CONTEXT.get(t.id, {}).get('coach', 'unknown')}, "
         f"sources:{TEAM_CONTEXT.get(t.id, {}).get('sources', 'FIFA.com')}, "
@@ -323,6 +349,12 @@ def _fetch_batch(chain, teams) -> list[TeamIntel]:
 
 
 def _refresh(api_key: str) -> IntelligenceCache:
+    """Asks the AI for current news on every team and saves the results to disk.
+
+    Teams are sent in small groups so the AI stays focused and finds real articles.
+    Any team that comes back with fewer than 2 news items gets retried on its own,
+    up to 3 attempts total.
+    """
     llm = ChatOpenAI(
         model="gpt-4.1-mini",
         api_key=api_key,
@@ -334,7 +366,6 @@ def _refresh(api_key: str) -> IntelligenceCache:
     all_intel: list[TeamIntel] = []
     batches = [TEAMS[i : i + BATCH_SIZE] for i in range(0, len(TEAMS), BATCH_SIZE)]
 
-    # Main pass
     for batch in batches:
         try:
             all_intel.extend(_fetch_batch(chain, batch))
@@ -356,7 +387,6 @@ def _refresh(api_key: str) -> IntelligenceCache:
             try:
                 retried = _fetch_batch(chain, [team])
                 if retried and retried[0].news_count > 0:
-                    # Only swap out existing data if retry actually returned something
                     all_intel = [t for t in all_intel if t.id != team.id]
                     all_intel.extend(retried)
                     logger.info(f"  {team.name}: {retried[0].news_count} items (attempt {attempt})")
@@ -381,6 +411,12 @@ def _refresh(api_key: str) -> IntelligenceCache:
 
 
 def current_teams(api_key: str | None = None) -> list[TeamDto]:
+    """Returns all teams with AI adjustments applied.
+
+    If the saved data is still fresh, use it. If not, ask the AI to refresh it.
+    If no API key is provided or the refresh fails, return whatever data we have
+    so the app never comes back empty.
+    """
     cache = _read_cache()
     if cache and cache.is_fresh():
         logger.info("Using fresh intelligence cache")
